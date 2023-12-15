@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
-import 'pages/signIn.dart';
+
 import "package:http/http.dart" as http;
 
 void main() {
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// dsad
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
@@ -178,10 +179,10 @@ class Login extends State<MyHomePage> {
             child: InkWell(
               onTap: () {
                 // Przenoszenie na nową stronę po kliknięciu
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignIn()),
-                );
+                // Navigator.push(
+                //   // context,
+                //   // MaterialPageRoute(builder: (context) => const SignIn()),
+                // );
               },
               child: RichText(
                 text: const TextSpan(
