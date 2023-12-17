@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
-
+import 'pages/signIn.dart';
 import "package:http/http.dart" as http;
 
 void main() {
@@ -34,12 +34,17 @@ class MyHomePage extends StatefulWidget {
   String login = "";
   String password = "";
   postData() async {
-    var response = http
-        .post(Uri.parse("https://jsonplaceholder.typicode.com/posts"), body: {
-      "id": 1.toString(),
-      "login": login,
-      "password": password,
-    });
+    try {
+      var response = await http
+          .post(Uri.parse("https://jsonplaceholder.typicode.com/posts"), body: {
+        "id": 1.toString(),
+        "login": login,
+        "password": password,
+      });
+      print(response.body);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -50,6 +55,7 @@ class Login extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
   var home = MyHomePage();
   final TextEditingController _textController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   String myValue = '';
   String holder = "";
   @override
@@ -119,6 +125,7 @@ class Login extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 20.0),
                 TextFormField(
+                  controller: _passController,
                   decoration: InputDecoration(
                       labelText: "Hasło",
                       labelStyle: const TextStyle(
@@ -152,17 +159,19 @@ class Login extends State<MyHomePage> {
                       ),
                     ),
                     onPressed: () {
-                      if (_textController.text.isNotEmpty) {
-                        myValue = _textController.text;
-                        _textController.text = home.login;
+                      if (_textController.text.isNotEmpty &&
+                          _passController.text.isNotEmpty) {
+                        home.login = _textController.text;
+                        home.password = _passController.text;
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(myValue),
-                        ),
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     content: Text(myValue),
+                      //   ),
+                      // );
+                      home.postData();
                     },
                     child: const Text(
                       'Zaloguj się',
@@ -179,10 +188,10 @@ class Login extends State<MyHomePage> {
             child: InkWell(
               onTap: () {
                 // Przenoszenie na nową stronę po kliknięciu
-                // Navigator.push(
-                //   // context,
-                //   // MaterialPageRoute(builder: (context) => const SignIn()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignIn()),
+                );
               },
               child: RichText(
                 text: const TextSpan(
