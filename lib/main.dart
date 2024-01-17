@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'pages/signIn.dart';
+import 'pages/friends_list.dart';
 import "package:http/http.dart" as http;
 
 void main() {
@@ -21,7 +22,21 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: const FriendsList(friendsList: [
+        'Jan',
+        'Paweł',
+        'Mietek',
+        'Bożydar',
+      ], linksToFriendsPfps: {
+        'Jan': '11',
+        'Paweł': '21',
+        'Mietek': '31',
+        'Bożydar': '41',
+      }, friendsHistory: {
+        'Paweł': ['15zł', '20zł'],
+        'Mietek': ['31\$', '24PLN', '400PLN'],
+        'Bożydar': ['41zł'],
+      }),
     );
   }
 }
@@ -46,6 +61,7 @@ class MyHomePage extends StatefulWidget {
       print(e);
     }
   }
+
 
   @override
   State<MyHomePage> createState() => Login();
