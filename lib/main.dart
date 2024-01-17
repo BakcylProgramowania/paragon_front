@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'pages/signIn.dart';
+import 'dart:convert';
 import "package:http/http.dart" as http;
 
 void main() {
@@ -31,20 +34,34 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
 
-  String login = "";
+  String username = "";
   String password = "";
-  postData() async {
+
+  void fetchData() async {
+    final url = Uri.https("paragon.wroc.ovh", "/login");
+    print("work");
     try {
-      var response = await http
-          .post(Uri.parse("https://jsonplaceholder.typicode.com/posts"), body: {
-        "id": 1.toString(),
-        "login": login,
-        "password": password,
-      });
-      print(response.body);
-    } catch (e) {
-      print(e);
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username, 'password': password}),
+      );
+
+      print("Response status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        print("Sukces: ${response.body}");
+      } else {
+        print("Błąd: ${response.statusCode}");
+        print("Błąd: ${response.body}");
+      }
+    } catch (error) {
+      print("Błąd: $error");
     }
+  }
+  postData() async {
+    fetchData();
   }
 
   @override
@@ -161,16 +178,12 @@ class Login extends State<MyHomePage> {
                     onPressed: () {
                       if (_textController.text.isNotEmpty &&
                           _passController.text.isNotEmpty) {
-                        home.login = _textController.text;
+                        home.username = _textController.text;
                         home.password = _passController.text;
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   SnackBar(
-                      //     content: Text(myValue),
-                      //   ),
-                      // );
+                     
                       home.postData();
                     },
                     child: const Text(
