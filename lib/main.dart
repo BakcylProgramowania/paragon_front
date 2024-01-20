@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
         'Mietek',
         'Bożydar',
       ], linksToFriendsPfps: {
-        'Jan': '11',
-        'Paweł': '21',
+        'Paweł': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIYf_LCn8rIjlcse1wL1cvs26vLADaz1ekDjYSC-hRCw&s',
         'Mietek': '31',
         'Bożydar': '41',
       }, friendsHistory: {

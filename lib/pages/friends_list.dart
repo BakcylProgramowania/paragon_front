@@ -70,7 +70,7 @@ class _FriendsListState extends State<FriendsList> {
                                 suffixIcon: const Icon(Icons.search)),
                             onChanged: (searchedValue) {
                               setState(() {
-                                _searchedFriendsList = _search(
+                                _searchedFriendsList = search(
                                     friendsList: widget.friendsList!,
                                     searchedValue: searchedValue);
                               });
@@ -96,18 +96,23 @@ class _FriendsListState extends State<FriendsList> {
                   if (_searchedFriendsList != null) {
                     return Expanded(
                       child: ListView.builder(
-                          //shrinkWrap: true,
                           itemCount: _searchedFriendsList!.length,
                           itemBuilder: (context, index) {
-                            return FriendsListItem(
-                              friend: _searchedFriendsList![index],
-                              friendPfp: widget.linksToFriendsPfps![
-                                  _searchedFriendsList![index]]!,
-                              friendHistory: widget
-                                  .friendsHistory?[_searchedFriendsList![index]],
+                            return DefaultExpansionTile(
+                              title: _searchedFriendsList![index],
+                              imageLink: widget.linksToFriendsPfps?[
+                                  _searchedFriendsList?[index]],
+                              children: widget.friendsHistory?[
+                                          _searchedFriendsList![index]]
+                                      ?.map((e) => Center(child: Text(e)))
+                                      .toList() ??
+                                  [
+                                    const Center(
+                                        child: Text(
+                                            'Nie dokonałeś jeszcze wspólnych rozliczeń'))
+                                  ],
                             );
-                          }
-                          ),
+                          }),
                     );
                   } else {
                     return const Center(
@@ -178,16 +183,4 @@ class FriendsListItem extends StatelessWidget {
       ],
     );
   }
-}
-
-List<String>? _search(
-    {String searchedValue = '', required List<String> friendsList}) {
-  List<String> result = [];
-  for (var element in friendsList) {
-    if (element.toLowerCase().contains(searchedValue.toLowerCase())) {
-      result.add(element);
-    }
-  }
-
-  return result.isNotEmpty ? result : null;
 }
