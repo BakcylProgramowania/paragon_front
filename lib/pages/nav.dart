@@ -171,8 +171,8 @@ class _NavigationExampleState extends State<NavigationExample> {
                           width: 350,
                           child: Row(
                             children: [
-                              Expanded(
-                                child: Container(
+                              const Expanded(
+                                child: SizedBox(
                                   height: 1,
                                   width: 20,
                                 ),
@@ -200,14 +200,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -221,14 +221,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -242,14 +242,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -263,14 +263,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -284,14 +284,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -305,14 +305,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -326,14 +326,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -347,14 +347,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -368,14 +368,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -389,14 +389,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -410,14 +410,14 @@ class _NavigationExampleState extends State<NavigationExample> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Center(
+                                child: const Center(
                                     child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(right: 10),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Zaloguj się z Google',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -603,7 +603,7 @@ class _NavigationExampleState extends State<NavigationExample> {
                                   curve: Curves.fastLinearToSlowEaseIn,
                                   child: Text(
                                     index == currentPageIndex
-                                        ? '${listOfStrings[index]}'
+                                        ? listOfStrings[index]
                                         : '',
                                     style: const TextStyle(
                                       color: Colors.redAccent,
