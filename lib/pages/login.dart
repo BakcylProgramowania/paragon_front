@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'colors.dart';
-import 'pages/signIn.dart';
+import '/default/colors.dart';
+import '/pages/signIn.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
 
@@ -34,17 +34,17 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key});
 
-  String username = "";
+  String login = "";
   String password = "";
-
-  void fetchData() async {
+ 
+   void fetchData() async {
     final url = Uri.https("paragon.wroc.ovh", "/login");
     print("work");
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'username': username, 'password': password}),
+        body: jsonEncode({'username': login, 'password': password}),
       );
 
       print("Response status code: ${response.statusCode}");
@@ -63,6 +63,7 @@ class MyHomePage extends StatefulWidget {
   postData() async {
     fetchData();
   }
+
 
   @override
   State<MyHomePage> createState() => Login();
@@ -178,12 +179,11 @@ class Login extends State<MyHomePage> {
                     onPressed: () {
                       if (_textController.text.isNotEmpty &&
                           _passController.text.isNotEmpty) {
-                        home.username = _textController.text;
+                        home.login = _textController.text;
                         home.password = _passController.text;
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }
-                     
                       home.postData();
                     },
                     child: const Text(
@@ -200,7 +200,6 @@ class Login extends State<MyHomePage> {
             margin: const EdgeInsets.only(top: 20),
             child: InkWell(
               onTap: () {
-                // Przenoszenie na nową stronę po kliknięciu
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SignIn()),
