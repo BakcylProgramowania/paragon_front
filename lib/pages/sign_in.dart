@@ -30,25 +30,26 @@ class _SignInState extends State<SignIn> {
 
   // Metoda do wysyłania danych
   Future<void> fetchData(
-      String name, String secondName, String email, String password) async {
-    final url = Uri.parse("https://paragon.wroc.ovh" "register"); // Zaktualizuj URL
+      String name, String email, String password) async {
+    final url = Uri.parse("https://paragon.wroc.ovh" "/register"); // Zaktualizuj URL
     print("work");
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'name': name,
-          'secondName': secondName,
+          'username': name,
           'email': email,
           'password': password,
         }),
       );
-
+      print(email);
+      print(password);
+      print(name);
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201 ) {
         print("Sukces: ${response.body}");
       } else {
         print("Błąd: ${response.statusCode}");
@@ -64,7 +65,6 @@ class _SignInState extends State<SignIn> {
     if (formKey.currentState!.validate()) {
       fetchData(
         _nameController.text,
-        _secondNameCotroller.text,
         _emailController.text,
         _passwordController.text,
       );
