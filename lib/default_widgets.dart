@@ -64,14 +64,13 @@ class DefaultExpansionTile extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 30),
             child: ExpansionTile(
                 title: Row(children: [
-                  if (imageLink != null) ...[
+                  if (imageLink != null)
                     Container(
                       margin: const EdgeInsets.only(right: 10),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(imageLink!),
                       ),
                     ),
-                  ],
                   Text(
                     title,
                   )

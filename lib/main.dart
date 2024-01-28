@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         'Mietek',
         'Bożydar',
       ], linksToFriendsPfps: {
-        'Paweł': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIYf_LCn8rIjlcse1wL1cvs26vLADaz1ekDjYSC-hRCw&s',
+        'Paweł': 'https://dekoracje-online.pl/userdata/public/gfx/a510265dc22a5aff3ce28697a11fae7d.jpg',
         'Mietek': '31',
         'Bożydar': '41',
       }, friendsHistory: {
