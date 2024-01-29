@@ -25,20 +25,20 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: _Login(),
     );
   }
 }
 
 // dsad
 // ignore: must_be_immutable
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+class _Login extends StatefulWidget {
 
+  late String authToken = "";
   String login = "";
   String password = "";
  
-   void fetchData() async {
+  Future<void> postData() async {
     final url = Uri.https("paragon.wroc.ovh", "/login");
     print("work");
     try {
@@ -53,6 +53,8 @@ class MyHomePage extends StatefulWidget {
 
       if (response.statusCode == 200) {
         print("Sukces: ${response.body}");
+         final Map<String, dynamic> responseData = jsonDecode(response.body);
+         authToken = responseData['token'];
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");
@@ -61,22 +63,34 @@ class MyHomePage extends StatefulWidget {
       print("Błąd: $error");
     }
   }
-  postData() async {
-    fetchData();
+
+  Future<void> fetchData() async {
+    try {
+      final response = await http.get(
+        Uri.https("paragon.wroc.ovh", "/some_endpoint"),
+        headers: {'Authorization': 'Bearer $authToken'},
+      );
+
+      print("Response status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+    } catch (error) {
+      print("Błąd: $error");
+    }
   }
 
-
   @override
-  State<MyHomePage> createState() => Login();
+  State<_Login> createState() => LoginState();
 }
 
-class Login extends State<MyHomePage> {
+class LoginState extends State<_Login> {
   final _formKey = GlobalKey<FormState>();
-  var home = MyHomePage();
+  var home = _Login();
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   String myValue = '';
   String holder = "";
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

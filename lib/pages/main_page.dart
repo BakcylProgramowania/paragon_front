@@ -188,13 +188,13 @@ class MainPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     buildRoundButton(Icons.people, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsList()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const FriendsList()));
                     }, false, 35),
                     buildRoundButton(Icons.home, () {
-                      // Tutaj możesz obsłużyć nawigację dla strony głównej
+                      
                     }, true, 35),
                     buildRoundButton(Icons.history, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HistoryPage()));
                     }, false, 35),
                   ],
                 ),
