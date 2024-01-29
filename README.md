@@ -35,7 +35,7 @@ This guide provides step-by-step instructions on setting up your Flutter develop
 
 ## Running
 
-^^ If you are in project folder
+If you are in project folder
 
 ```bash
 flutter run

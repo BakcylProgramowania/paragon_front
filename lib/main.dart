@@ -5,6 +5,7 @@ import '/default/colors.dart';
 import 'pages/sign_in.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
+import 'pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -181,6 +182,10 @@ class Login extends State<MyHomePage> {
                           _passController.text.isNotEmpty) {
                         home.login = _textController.text;
                         home.password = _passController.text;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                        );
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }

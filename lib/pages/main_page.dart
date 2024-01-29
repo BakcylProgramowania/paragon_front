@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'friends_list.dart';
+import 'history.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MainPage());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  
+class MainPage extends StatelessWidget {
+  MainPage({super.key});
+
   // History data
   final List<Map<String, dynamic>> historyData = [
     {'icon': Icons.dining, 'name': 'Wspólne jedzenie', 'amount': '51.60 PLN'},
@@ -61,7 +63,9 @@ class MyApp extends StatelessWidget {
                   child: const Text(
                     'Lorem ipsum dolor sit amet consectetur adipisicing\nelit. Voluptatess quasi iusto officia consequuntur\nquos neque nam magnam ten.Lorem ipsum dolor sit\namet consectetur adipisicing elit. Voluptatess quasi.',
                     style: TextStyle(
-                        fontSize: 13, color: Color(0xFF656565), fontWeight: FontWeight.bold),
+                        fontSize: 13,
+                        color: Color(0xFF656565),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
 
@@ -87,7 +91,8 @@ class MyApp extends StatelessWidget {
                     children: [
                       const Text(
                         'Policzymy twój\nrachunek',
-                        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 26, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(),
@@ -113,8 +118,8 @@ class MyApp extends StatelessWidget {
                             ),
                           ),
                           child: const Text('Policz',
-                              style:
-                                  TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12)),
                         ),
                       ),
                     ],
@@ -128,13 +133,21 @@ class MyApp extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {},
-                      child: _buildBox('42 PLN', Icons.arrow_upward, Colors.black,
-                          const Color(0xFFf85f6a), const Color(0xFF06e105)),
+                      child: _buildBox(
+                          '42 PLN',
+                          Icons.arrow_upward,
+                          Colors.black,
+                          const Color(0xFFf85f6a),
+                          const Color(0xFF06e105)),
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: _buildBox('30 PLN', Icons.arrow_downward, Colors.black,
-                          const Color(0xFFf85f6a), const Color(0xFFd51616)),
+                      child: _buildBox(
+                          '30 PLN',
+                          Icons.arrow_downward,
+                          Colors.black,
+                          const Color(0xFFf85f6a),
+                          const Color(0xFFd51616)),
                     ),
                   ],
                 ),
@@ -174,13 +187,19 @@ class MyApp extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildRoundButton(Icons.people, iconSize: 35),
-                    _buildRoundButton(Icons.home, isSelected: true, iconSize: 35),
-                    _buildRoundButton(Icons.history, iconSize: 35),
+                    buildRoundButton(Icons.people, () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsList()));
+                    }, false, 35),
+                    buildRoundButton(Icons.home, () {
+                      // Tutaj możesz obsłużyć nawigację dla strony głównej
+                    }, true, 35),
+                    buildRoundButton(Icons.history, () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryPage()));
+                    }, false, 35),
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -188,8 +207,8 @@ class MyApp extends StatelessWidget {
   }
 
   //Two little boxes WIDGET
-  Widget _buildBox(
-      String text, IconData icon, Color boxColor, Color shadowColor, Color iconColor) {
+  Widget _buildBox(String text, IconData icon, Color boxColor,
+      Color shadowColor, Color iconColor) {
     return Container(
       width: 120,
       height: 70,
@@ -225,8 +244,7 @@ class MyApp extends StatelessWidget {
   }
 
   // History item widget
-  Widget _buildHistoryItem(
-      IconData icon, String name, String amount) {
+  Widget _buildHistoryItem(IconData icon, String name, String amount) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(8),
@@ -269,7 +287,8 @@ class MyApp extends StatelessWidget {
           ),
           Text(
             amount,
-            style: const TextStyle(fontSize: 10, color: Colors.black, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 10, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -277,7 +296,12 @@ class MyApp extends StatelessWidget {
   }
 
   //Control panel WIDGET
-  Widget _buildRoundButton(IconData icon, {bool isSelected = false, double iconSize = 30}) {
+  Widget buildRoundButton(
+    IconData icon,
+    Function() onPressed,
+    bool isSelected,
+    double iconSize,
+  ) {
     return Container(
       width: 50,
       height: 50,
@@ -297,7 +321,7 @@ class MyApp extends StatelessWidget {
       child: IconButton(
         icon: Icon(icon, size: iconSize),
         color: isSelected ? Colors.white : Colors.black,
-        onPressed: () {},
+        onPressed: onPressed,
       ),
     );
   }
