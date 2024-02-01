@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 
-
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const DefaultAppBar({
@@ -31,8 +30,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         Container(
           margin: const EdgeInsets.only(right: 20),
           child: IconButton(
-            icon: const Icon(Icons.add,
-                color: AppColors.primaryColor, size: 45),
+            icon:
+                const Icon(Icons.add, color: AppColors.primaryColor, size: 45),
             onPressed: () {},
           ),
         ),
@@ -47,7 +46,6 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(70);
 }
-
 
 class DefaultExpansionTile extends StatelessWidget {
   final String title;
@@ -141,3 +139,146 @@ class DefaultTextField extends StatelessWidget {
     );
   }
 }
+
+class DefaultNavigationBar extends StatefulWidget {
+  final int currentPageIndex;
+  final ValueChanged<int> onPageChanged;
+
+  const DefaultNavigationBar({
+    Key? key,
+    required this.currentPageIndex,
+    required this.onPageChanged,
+  }) : super(key: key);
+
+  @override
+  State<DefaultNavigationBar> createState() => _DefaultNavigationBarState();
+}
+
+class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
+  @override
+  Widget build(BuildContext context) {
+    final double displayWidth = MediaQuery.of(context).size.width;
+
+    return Container(
+      margin: EdgeInsets.all(displayWidth * .05),
+      height: displayWidth * .155,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.1),
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: ListView.builder(
+        itemCount: 3,
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(horizontal: displayWidth * .01),
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {
+            widget.onPageChanged(index);
+          },
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastLinearToSlowEaseIn,
+                width: index == widget.currentPageIndex
+                    ? displayWidth * .478
+                    : displayWidth * .2,
+                alignment: Alignment.center,
+                child: AnimatedContainer(
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  height:
+                      index == widget.currentPageIndex ? displayWidth * .13 : 0,
+                  width:
+                      index == widget.currentPageIndex ? displayWidth * 1.2 : 0,
+                  decoration: BoxDecoration(
+                    color: index == widget.currentPageIndex
+                        ? Colors.redAccent.withOpacity(.2)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastLinearToSlowEaseIn,
+                width: index == widget.currentPageIndex
+                    ? displayWidth * .40
+                    : displayWidth * .2,
+                alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    Row(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          width: index == widget.currentPageIndex
+                              ? displayWidth * 0.21
+                              : 0,
+                        ),
+                        AnimatedOpacity(
+                          opacity: index == widget.currentPageIndex ? 1 : 0,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          child: Text(
+                            index == widget.currentPageIndex
+                                ? listOfStrings[index]
+                                : '',
+                            style: const TextStyle(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          width: index == widget.currentPageIndex
+                              ? displayWidth * 0.1
+                              : 20,
+                        ),
+                        Icon(
+                          listOfIcons[index],
+                          size: displayWidth * .076,
+                          color: index == widget.currentPageIndex
+                              ? Colors.redAccent
+                              : Colors.black26,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+List<IconData> listOfIcons = [
+  Icons.people_alt_rounded,
+  Icons.home_rounded,
+  Icons.access_time_filled_rounded,
+];
+
+List<String> listOfStrings = [
+  'Znajomi',
+  'Home',
+  'Historia',
+];
