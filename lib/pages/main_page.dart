@@ -184,20 +184,24 @@ class MainPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildRoundButton(Icons.people, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const FriendsList()));
-                    }, false, 35),
-                    buildRoundButton(Icons.home, () {
-                      
-                    }, true, 35),
-                    buildRoundButton(Icons.history, () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HistoryPage()));
-                    }, false, 35),
-                  ],
-                ),
+                child: Builder(builder: (context) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      buildRoundButton(Icons.people, () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const FriendsList()));
+                      }, false, 35),
+                      buildRoundButton(Icons.home, () {}, true, 35),
+                      buildRoundButton(Icons.history, () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HistoryPage()));
+                      }, false, 35),
+                    ],
+                  );
+                }),
               ),
             )
           ],
