@@ -75,8 +75,8 @@ class DefaultExpansionTile extends StatelessWidget {
                     title,
                   )
                 ]),
-                // iconColor: AppColors.primaryColor,
-                // collapsedIconColor: AppColors.primaryColor,
+                iconColor: AppColors.primaryColor,
+                collapsedIconColor: AppColors.primaryColor,
                 children: [
                   ListView(
                     shrinkWrap: true,
