@@ -190,7 +190,7 @@ class MainPage extends StatelessWidget {
                     children: [
                       buildRoundButton(Icons.people, () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const FriendsList()));
+                            builder: (context) => const FriendsList(friendsList: ['Jacek', 'Placek'],)));
                       }, false, 35),
                       buildRoundButton(Icons.home, () {}, true, 35),
                       buildRoundButton(Icons.history, () {
