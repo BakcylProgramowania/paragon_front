@@ -1,11 +1,16 @@
 // ignore_for_file: avoid_print
 
+// ignore: unused_import
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import '/default/colors.dart';
 import 'pages/sign_in.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
 import 'pages/main_page.dart';
+import './pages/history.dart';
+import './pages/friends_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/home': (context) => MainPage(),
+        '/history': (context) => HistoryPage(),
+        '/friends': (context) =>  FriendsList(),
+        // inne trasy
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',
@@ -33,11 +44,10 @@ class MyApp extends StatelessWidget {
 // dsad
 // ignore: must_be_immutable
 class _Login extends StatefulWidget {
-
   late String authToken = "";
   String login = "";
   String password = "";
- 
+
   Future<void> postData() async {
     final url = Uri.https("paragon.wroc.ovh", "/login");
     print("work");
@@ -53,8 +63,8 @@ class _Login extends StatefulWidget {
 
       if (response.statusCode == 200) {
         print("Sukces: ${response.body}");
-         final Map<String, dynamic> responseData = jsonDecode(response.body);
-         authToken = responseData['token'];
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        authToken = responseData['token'];
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");
@@ -73,7 +83,6 @@ class _Login extends StatefulWidget {
 
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
-
     } catch (error) {
       print("Błąd: $error");
     }
@@ -90,7 +99,7 @@ class LoginState extends State<_Login> {
   final TextEditingController _passController = TextEditingController();
   String myValue = '';
   String holder = "";
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,230 +1,93 @@
 import 'package:flutter/material.dart';
-import '../library/history_data.dart';
-
-void main() {
-  runApp(const HistoryPage());
-}
+import 'package:paragon_front/default/colors.dart'; // Assuming this contains color definitions.
+import 'package:paragon_front/default/default_widgets.dart'; // Assuming this contains custom widgets like search bar.
+import 'package:paragon_front/library/history_data.dart'; // Assuming this contains the data for the list.
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  _HistoryPageState createState() => _HistoryPageState();
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+  String searchQuery = '';
+  int _selectedIndex = 0; // Assuming this is the index for the History page.
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    // Tutaj implementujesz logikę zmiany strony
+    switch (index) {
+      case 0:
+        // Navigate to the home page
+        Navigator.pushReplacementNamed(context, '/friends');
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/home');
+        break;
+      case 2:
+        // Navigate to the settings page
+        Navigator.pushReplacementNamed(context, '/history');
+        break;
+      // Dodaj więcej przypadków dla innych indeksów, jeśli są potrzebne
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<HistoryEvent> filteredEvents = HistoryData.historia.where((event) {
+      return event.eventName.toLowerCase().contains(searchQuery.toLowerCase());
+    }).toList();
+
     return Scaffold(
-      appBar: AppBar(
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                color: const Color.fromARGB(255, 201, 201, 201),
-                height: 2.0,
-                width: 250,
-              ),
-              Container(
-                color: Colors.redAccent,
-                height: 2.0,
-                width: 150,
-              ),
-            ],
-          ),
-        ),
-        centerTitle: true,
-        toolbarHeight: 120,
-        leadingWidth: 90,
-        leading: Container(
-          margin: const EdgeInsets.only(left: 30),
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.person,
-              size: 50,
-            ),
-          ),
-        ),
-        title: const Text(
-          "Historia",
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 30),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.add_sharp,
-                size: 50,
-                color: Colors.redAccent,
-              ),
-            ),
-          )
-        ],
+      appBar: DefaultAppBar(
+        title: 'Historia',
       ),
       body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 250,
-                height: 45,
-                margin: const EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 197, 197, 197),
-                      spreadRadius: 1.5,
-                    )
-                  ],
-                ),
-                child: const TextField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 10, top: 10),
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintStyle: TextStyle(
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 180, 180, 180),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    hintText: "Wyszukaj",
-                    suffixIcon: Icon(Icons.search),
-                  ),
-                ),
-              ),
-              Container(
-                width: 110,
-                height: 45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 197, 197, 197),
-                      spreadRadius: 1.5,
-                    )
-                  ],
-                ),
-                margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                child: InkWell(
-                  onTap: () {},
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        "Filtr",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 180, 180, 180),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Icon(Icons.align_vertical_top_sharp)
-                    ],
-                  ),
-                ),
-              )
-            ],
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 50), 
+          child: DefaultTextField(
+            onChanged: (value) {
+              setState(() {
+                searchQuery = value;
+              });
+            },
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-          ),
-          const Divider(
-            indent: 50,
-            endIndent: 50,
-            height: 10,
-            thickness: 1,
-          ),
+        ),
+          
+          // Assuming this card shows selected event details
+
           Expanded(
             child: ListView.builder(
-              itemCount: HistoryData.historia.length,
+              itemCount: filteredEvents.length,
               itemBuilder: (context, index) {
-                final event = HistoryData.historia[index];
-                return Column(
-                  children: [
+                final event = filteredEvents[index];
+                final formattedDate =
+                    "${event.dataEvent.year}-${event.dataEvent.month.toString().padLeft(2, '0')}-${event.dataEvent.day.toString().padLeft(2, '0')}";
+
+                return DefaultExpansionTile(
+                  title: event.eventName,
+                  children: <Widget>[
                     ListTile(
-                      title: Container(
-                        width: 400,
-                        margin: const EdgeInsets.only(left: 35, right: 35),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      title: Text('${event.author}'),
+                      subtitle: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  margin: const EdgeInsets.only(right: 20),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 213, 213, 213),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  event.eventName,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            TextSpan(
+                              text: '${event.price.toStringAsFixed(2)} zł ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    text: event.price.toStringAsFixed(2),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    children: const [
-                                      TextSpan(
-                                        text: " PLN     ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Color.fromARGB(
-                                              255, 186, 186, 186),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Transform(
-                                  transform: Matrix4.rotationZ(1.55)
-                                    ..translate(0, -20),
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: const Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
+                            TextSpan(
+                                text: '| ${event.eventName} | $formattedDate'),
                           ],
                         ),
                       ),
-                      onTap: () {},
-                    ),
-                    const Divider(
-                      indent: 50,
-                      endIndent: 50,
-                      height: 10,
-                      thickness: 1,
                     ),
                   ],
                 );
@@ -232,6 +95,10 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: DefaultNavigationBar(
+        currentPageIndex: _selectedIndex,
+        onPageChanged: _onItemTapped,
       ),
     );
   }
