@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:paragon_front/default/colors.dart'; // Assuming this contains color definitions.
 import 'package:paragon_front/default/default_widgets.dart'; // Assuming this contains custom widgets like search bar.
 import 'package:paragon_front/library/history_data.dart'; // Assuming this contains the data for the list.
@@ -18,20 +19,17 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {
       _selectedIndex = index;
     });
-    // Tutaj implementujesz logikę zmiany strony
+
     switch (index) {
       case 0:
-        // Navigate to the home page
         Navigator.pushReplacementNamed(context, '/friends');
         break;
       case 1:
         Navigator.pushReplacementNamed(context, '/home');
         break;
       case 2:
-        // Navigate to the settings page
         Navigator.pushReplacementNamed(context, '/history');
         break;
-      // Dodaj więcej przypadków dla innych indeksów, jeśli są potrzebne
     }
   }
 
@@ -46,20 +44,17 @@ class _HistoryPageState extends State<HistoryPage> {
         title: 'Historia',
       ),
       body: Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50), 
-          child: DefaultTextField(
-            onChanged: (value) {
-              setState(() {
-                searchQuery = value;
-              });
-            },
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: DefaultTextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
+            ),
           ),
-        ),
-          
-          // Assuming this card shows selected event details
-
           Expanded(
             child: ListView.builder(
               itemCount: filteredEvents.length,
