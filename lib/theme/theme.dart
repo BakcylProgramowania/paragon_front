@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
+    fontFamily: 'Poppins',
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
       background: Colors.white,
@@ -8,6 +9,7 @@ ThemeData lightMode = ThemeData(
     ));
 
 ThemeData darkMode = ThemeData(
+    fontFamily: 'Poppins',
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
       background: Colors.black,

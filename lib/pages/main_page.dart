@@ -161,49 +161,51 @@ class MainPage extends StatelessWidget {
             ],
           ),
 
-            // Control Panel
           // Control Panel
-            Positioned(
-              bottom: 25,
-              left: 40,
-              right: 40,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFeeecec),
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
-                ),
-                child: Builder(builder: (context) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildRoundButton(Icons.people, () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const FriendsList(friendsList: ['Jacek', 'Placek'],)));
-                      }, false, 35),
-                      buildRoundButton(Icons.home, () {}, true, 35),
-                      buildRoundButton(Icons.history, () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HistoryPage()));
-                      }, false, 35),
-                    ],
-                  );
-                }),
+          // Control Panel
+          Positioned(
+            bottom: 25,
+            left: 40,
+            right: 40,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFeeecec),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
-      );
+              child: Builder(builder: (context) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildRoundButton(Icons.people, () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const FriendsList(
+                                friendsList: ['Jacek', 'Placek'],
+                              )));
+                    }, false, 35),
+                    buildRoundButton(Icons.home, () {}, true, 35),
+                    buildRoundButton(Icons.history, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HistoryPage()));
+                    }, false, 35),
+                  ],
+                );
+              }),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   //Two little boxes WIDGET
