@@ -38,7 +38,7 @@ class _NavigationExampleState extends State<NavigationExample> {
           IndexedStack(index: currentPageIndex, children: [
             FriendsList(),
             MainPage(),
-           
+           HistoryPage()
           ]),
           Positioned(
             bottom: 0,
