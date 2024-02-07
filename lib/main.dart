@@ -1,11 +1,16 @@
 // ignore_for_file: avoid_print
 
+// ignore: unused_import
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import '/default/colors.dart';
 import 'pages/sign_in.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
 import 'pages/main_page.dart';
+import './pages/history.dart';
+import './pages/friends_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/home': (context) => MainPage(),
+        '/history': (context) => HistoryPage(),
+        '/friends': (context) =>  FriendsList(),
+        // inne trasy
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',

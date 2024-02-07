@@ -98,15 +98,46 @@ class DefaultExpansionTile extends StatelessWidget {
 }
 
 List<String>? search(
-    {String searchedValue = '', required List<String> friendsList}) {
+    {String searchedValue = '', required List<String> searchingList}) {
   List<String> result = [];
-  for (var element in friendsList) {
+  for (var element in searchingList) {
     if (element.toLowerCase().contains(searchedValue.toLowerCase())) {
       result.add(element);
     }
   }
 
   return result.isNotEmpty ? result : null;
+}
+
+
+class DefaultTextField extends StatelessWidget {
+  
+  final void Function(String searchedValue) onChanged;
+  const DefaultTextField({super.key, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      cursorColor: AppColors.defaultTextColor,
+      cursorWidth: 1,
+      decoration: InputDecoration(
+          labelText: 'Wyszukaj',
+          border: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(10)),
+          labelStyle: const TextStyle(color: AppColors.primaryColor),
+          focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(10)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(10)),
+          suffixIcon: const Icon(Icons.search)),
+      onChanged: (searchedValue) {
+        onChanged(searchedValue);
+      },
+    );
+  }
 }
 
 class DefaultNavigationBar extends StatefulWidget {
@@ -120,7 +151,7 @@ class DefaultNavigationBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DefaultNavigationBarState createState() => _DefaultNavigationBarState();
+  State<DefaultNavigationBar> createState() => _DefaultNavigationBarState();
 }
 
 class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
@@ -200,7 +231,7 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
                           curve: Curves.fastLinearToSlowEaseIn,
                           child: Text(
                             index == widget.currentPageIndex
-                                ? '${listOfStrings[index]}'
+                                ? listOfStrings[index]
                                 : '',
                             style: const TextStyle(
                               color: Color(0xFFFF5252),
