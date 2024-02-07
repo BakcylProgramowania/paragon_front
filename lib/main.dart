@@ -33,11 +33,10 @@ class MyApp extends StatelessWidget {
 // dsad
 // ignore: must_be_immutable
 class _Login extends StatefulWidget {
-
   late String authToken = "";
   String login = "";
   String password = "";
- 
+
   Future<void> postData() async {
     final url = Uri.https("paragon.wroc.ovh", "/login");
     print("work");
@@ -53,8 +52,8 @@ class _Login extends StatefulWidget {
 
       if (response.statusCode == 200) {
         print("Sukces: ${response.body}");
-         final Map<String, dynamic> responseData = jsonDecode(response.body);
-         authToken = responseData['token'];
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        authToken = responseData['token'];
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");
@@ -73,7 +72,6 @@ class _Login extends StatefulWidget {
 
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
-
     } catch (error) {
       print("Błąd: $error");
     }
@@ -90,7 +88,7 @@ class LoginState extends State<_Login> {
   final TextEditingController _passController = TextEditingController();
   String myValue = '';
   String holder = "";
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,7 +141,7 @@ class LoginState extends State<_Login> {
                   decoration: InputDecoration(
                       labelText: "Email",
                       labelStyle: const TextStyle(
-                          color: AppColors.grayAccent, fontSize: 15),
+                          color: AppColors.greyAccent, fontSize: 15),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide:
@@ -151,7 +149,7 @@ class LoginState extends State<_Login> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(
-                          color: AppColors.grayAccent,
+                          color: AppColors.greyAccent,
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(15)),
@@ -162,7 +160,7 @@ class LoginState extends State<_Login> {
                   decoration: InputDecoration(
                       labelText: "Hasło",
                       labelStyle: const TextStyle(
-                          color: AppColors.grayAccent, fontSize: 15),
+                          color: AppColors.greyAccent, fontSize: 15),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide:
@@ -170,7 +168,7 @@ class LoginState extends State<_Login> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(
-                          color: AppColors.grayAccent,
+                          color: AppColors.greyAccent,
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(15)),
@@ -234,7 +232,7 @@ class LoginState extends State<_Login> {
                   children: [
                     TextSpan(
                       text: 'Nie masz konta?',
-                      style: TextStyle(color: AppColors.grayAccent),
+                      style: TextStyle(color: AppColors.greyAccent),
                     ),
                     TextSpan(
                       text: ' Zarejestruj się.',
@@ -257,20 +255,20 @@ class LoginState extends State<_Login> {
                     child: Container(
                       height: 1,
                       width: 20,
-                      color: AppColors.grayAccent,
+                      color: AppColors.greyAccent,
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
                       'lub',
-                      style: TextStyle(color: AppColors.grayAccent),
+                      style: TextStyle(color: AppColors.greyAccent),
                     ),
                   ),
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: AppColors.grayAccent,
+                      color: AppColors.greyAccent,
                     ),
                   ),
                 ],

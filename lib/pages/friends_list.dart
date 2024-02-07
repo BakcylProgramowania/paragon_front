@@ -103,11 +103,10 @@ class _FriendsListState extends State<FriendsList> {
                               friend: _searchedFriendsList![index],
                               friendPfp: widget.linksToFriendsPfps![
                                   _searchedFriendsList![index]]!,
-                              friendHistory: widget
-                                  .friendsHistory?[_searchedFriendsList![index]],
+                              friendHistory: widget.friendsHistory?[
+                                  _searchedFriendsList![index]],
                             );
-                          }
-                          ),
+                          }),
                     );
                   } else {
                     return const Center(
