@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '/default/colors.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
+import "main_page.dart";
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -51,6 +52,10 @@ class _SignInState extends State<SignIn> {
 
       if (response.statusCode == 200 || response.statusCode == 201 ) {
         print("Sukces: ${response.body}");
+        Navigator.pushReplacement( 
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+          );
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");

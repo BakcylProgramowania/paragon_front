@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 // ignore: unused_import
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import '/default/colors.dart';
@@ -48,31 +48,39 @@ class _Login extends StatefulWidget {
   String login = "";
   String password = "";
 
-  Future<void> postData() async {
-    final url = Uri.https("paragon.wroc.ovh", "/login");
-    
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'username': login, 'password': password}),
+  Future<void> postData(BuildContext context) async {
+  final url = Uri.https("paragon.wroc.ovh", "/login");
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'username': login, 'password': password}),
+    );
+
+    print("Response status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Sukces: ${response.body}");
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      authToken = responseData['token'];
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
       );
-
-      print("Response status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        print("Sukces: ${response.body}");
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        authToken = responseData['token'];
-      } else {
-        print("Błąd: ${response.statusCode}");
-        print("Błąd: ${response.body}");
-      }
-    } catch (error) {
-      print("Błąd: $error");
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Niepoprawne dane logowania'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+  } catch (error) {
+    print("Błąd: $error");
   }
+}
 
   Future<void> fetchData() async {
     try {
@@ -205,14 +213,11 @@ class LoginState extends State<_Login> {
                           _passController.text.isNotEmpty) {
                         home.login = _textController.text;
                         home.password = _passController.text;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MainPage()),
-                        );
+                        home.postData(context);
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }
-                      home.postData();
+                      
                     },
                     child: const Text(
                       'Zaloguj się',
