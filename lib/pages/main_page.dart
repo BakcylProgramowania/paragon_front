@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+
+import 'package:paragon_front/theme/theme.dart';
 import 'friends_list.dart';
 import 'history.dart';
 
 void main() {
-  runApp(MainPage());
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: lightMode,
+      darkTheme: darkMode,
+      home: MainPage(),
+    );
+  }
 }
 
 class MainPage extends StatelessWidget {
@@ -19,193 +32,178 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Strona główna',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: const Text(
+          'Strona główna',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
           ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.person),
-            iconSize: 38,
-            color: Colors.black,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.person),
+          iconSize: 38,
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            iconSize: 40,
+            color: const Color(0xFFf85f6a),
             onPressed: () {},
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              iconSize: 40,
-              color: const Color(0xFFf85f6a),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        ],
+      ),
 
-        //Divider
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                const Divider(
-                  color: Colors.grey,
-                ),
+      //Divider
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Divider(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
 
-                //Some text
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: const Text(
-                    'Lorem ipsum dolor sit amet consectetur adipisicing\nelit. Voluptatess quasi iusto officia consequuntur\nquos neque nam magnam ten.Lorem ipsum dolor sit\namet consectetur adipisicing elit. Voluptatess quasi.',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF656565),
-                        fontWeight: FontWeight.bold),
+              //Some text
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Lorem ipsum dolor sit amet consectetur adipisicing\nelit. Voluptatess quasi iusto officia consequuntur\nquos neque nam magnam ten.Lorem ipsum dolor sit\namet consectetur adipisicing elit. Voluptatess quasi.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
+              ),
 
-                //Big box
-                Container(
-                  width: 280,
-                  height: 160,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFeeecec),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        blurRadius: 5.0,
-                        spreadRadius: 1.0,
-                        offset: Offset(0, 1),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Policzymy twój\nrachunek',
-                        style: TextStyle(
-                            fontSize: 26, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(),
-                      const Text(
-                        'Wpisz dane i rozluźnij się.',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF656565),
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: 90,
-                        height: 24,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFf85f6a),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+              //Big box
+              Container(
+                width: 280,
+                height: 160,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Policzymy twój\nrachunek',
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(),
+                    const Text(
+                      'Wpisz dane i rozluźnij się.',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 90,
+                      height: 24,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFf85f6a),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Text('Policz',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12)),
                         ),
+                        child: const Text('Policz',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12)),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
 
-                //Two little boxes
-                const SizedBox(height: 40),
-                Row(
+              //Two little boxes
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: _buildBox('42 PLN', Icons.arrow_upward, Colors.black,
+                        const Color(0xFFf85f6a), const Color(0xFF06e105)),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: _buildBox(
+                        '30 PLN',
+                        Icons.arrow_downward,
+                        Colors.black,
+                        const Color(0xFFf85f6a),
+                        const Color(0xFFd51616)),
+                  ),
+                ],
+              ),
+
+              // History
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                children: historyData.reversed.map((entry) {
+                  return _buildHistoryItem(
+                      entry['icon'], entry['name'], entry['amount']);
+                }).toList(),
+              ),
+            ],
+          ),
+
+          // Control Panel
+          // Control Panel
+          Positioned(
+            bottom: 25,
+            left: 40,
+            right: 40,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFeeecec),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5.0,
+                    spreadRadius: 1.0,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Builder(builder: (context) {
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: _buildBox(
-                          '42 PLN',
-                          Icons.arrow_upward,
-                          Colors.black,
-                          const Color(0xFFf85f6a),
-                          const Color(0xFF06e105)),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: _buildBox(
-                          '30 PLN',
-                          Icons.arrow_downward,
-                          Colors.black,
-                          const Color(0xFFf85f6a),
-                          const Color(0xFFd51616)),
-                    ),
+                    buildRoundButton(Icons.people, () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const FriendsList(
+                                friendsList: ['Jacek', 'Placek'],
+                              )));
+                    }, false, 35),
+                    buildRoundButton(Icons.home, () {}, true, 35),
+                    buildRoundButton(Icons.history, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HistoryPage()));
+                    }, false, 35),
                   ],
-                ),
-
-                // History
-                const SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  children: historyData.reversed.map((entry) {
-                    return _buildHistoryItem(
-                        entry['icon'], entry['name'], entry['amount']);
-                  }).toList(),
-                ),
-              ],
+                );
+              }),
             ),
-
-            // Control Panel
-            Positioned(
-              bottom: 25,
-              left: 40,
-              right: 40,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFeeecec),
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
-                ),
-                child: Builder(builder: (context) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildRoundButton(Icons.people, () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const FriendsList(friendsList: ['Jacek', 'Placek'],)));
-                      }, false, 35),
-                      buildRoundButton(Icons.home, () {}, true, 35),
-                      buildRoundButton(Icons.history, () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HistoryPage()));
-                      }, false, 35),
-                    ],
-                  );
-                }),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

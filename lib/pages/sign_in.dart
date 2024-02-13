@@ -137,7 +137,7 @@ class _SignInState extends State<SignIn> {
                             decoration: InputDecoration(
                                 labelText: "Imie",
                                 labelStyle: const TextStyle(
-                                    color: AppColors.grayAccent, fontSize: 15),
+                                    color: AppColors.greyAccent, fontSize: 15),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12.0),
                                     borderSide: const BorderSide(
@@ -145,7 +145,7 @@ class _SignInState extends State<SignIn> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                   borderSide: const BorderSide(
-                                    color: AppColors.grayAccent,
+                                    color: AppColors.greyAccent,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.all(15))),
@@ -155,7 +155,7 @@ class _SignInState extends State<SignIn> {
                             decoration: InputDecoration(
                                 labelText: "Nazwisko",
                                 labelStyle: const TextStyle(
-                                    color: AppColors.grayAccent, fontSize: 15),
+                                    color: AppColors.greyAccent, fontSize: 15),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12.0),
                                     borderSide: const BorderSide(
@@ -163,7 +163,7 @@ class _SignInState extends State<SignIn> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                   borderSide: const BorderSide(
-                                    color: AppColors.grayAccent,
+                                    color: AppColors.greyAccent,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.all(15))),
@@ -173,7 +173,7 @@ class _SignInState extends State<SignIn> {
                             decoration: InputDecoration(
                                 labelText: "Email",
                                 labelStyle: const TextStyle(
-                                    color: AppColors.grayAccent, fontSize: 15),
+                                    color: AppColors.greyAccent, fontSize: 15),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12.0),
                                     borderSide: const BorderSide(
@@ -181,7 +181,7 @@ class _SignInState extends State<SignIn> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                   borderSide: const BorderSide(
-                                    color: AppColors.grayAccent,
+                                    color: AppColors.greyAccent,
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.all(15))),
@@ -191,7 +191,7 @@ class _SignInState extends State<SignIn> {
                           decoration: InputDecoration(
                               labelText: "Hasło",
                               labelStyle: const TextStyle(
-                                  color: AppColors.grayAccent, fontSize: 15),
+                                  color: AppColors.greyAccent, fontSize: 15),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                   borderSide: const BorderSide(
@@ -199,7 +199,7 @@ class _SignInState extends State<SignIn> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: const BorderSide(
-                                  color: AppColors.grayAccent,
+                                  color: AppColors.greyAccent,
                                 ),
                               ),
                               contentPadding: const EdgeInsets.all(15)),
@@ -210,7 +210,7 @@ class _SignInState extends State<SignIn> {
                           decoration: InputDecoration(
                               labelText: "Powtórz hasło",
                               labelStyle: const TextStyle(
-                                  color: AppColors.grayAccent, fontSize: 15),
+                                  color: AppColors.greyAccent, fontSize: 15),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                   borderSide: const BorderSide(
@@ -218,7 +218,7 @@ class _SignInState extends State<SignIn> {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                                 borderSide: const BorderSide(
-                                  color: AppColors.grayAccent,
+                                  color: AppColors.greyAccent,
                                 ),
                               ),
                               contentPadding: const EdgeInsets.all(15)),

@@ -163,7 +163,7 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
       margin: EdgeInsets.all(displayWidth * .05),
       height: displayWidth * .155,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.1),
@@ -234,7 +234,7 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
                                 ? listOfStrings[index]
                                 : '',
                             style: const TextStyle(
-                              color: Colors.redAccent,
+                              color: Color(0xFFFF5252),
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                             ),
@@ -256,7 +256,7 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
                           size: displayWidth * .076,
                           color: index == widget.currentPageIndex
                               ? Colors.redAccent
-                              : Colors.black26,
+                              : Color(0xFFC3C3C3),
                         ),
                       ],
                     ),
