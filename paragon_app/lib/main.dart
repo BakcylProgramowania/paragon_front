@@ -10,6 +10,7 @@ import "package:http/http.dart" as http;
 import '/pages/main_page.dart';
 import '/pages/history.dart';
 import '/pages/friends_list.dart';
+import '/nav_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,7 +79,7 @@ class LoginState extends State<_Login> {
         print("Sukces: ${response.body}");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MainPage()),
+          MaterialPageRoute(builder: (context) => NavigationBarApp()),
         );
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         authToken = responseData['token'];
