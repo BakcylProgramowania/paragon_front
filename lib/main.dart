@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 // ignore: unused_import
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import '/default/colors.dart';
@@ -48,31 +48,39 @@ class _Login extends StatefulWidget {
   String login = "";
   String password = "";
 
-  Future<void> postData() async {
-    final url = Uri.https("paragon.wroc.ovh", "/login");
-    print("work");
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'username': login, 'password': password}),
+  Future<void> postData(BuildContext context) async {
+  final url = Uri.https("paragon.wroc.ovh", "/login");
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'username': login, 'password': password}),
+    );
+
+    print("Response status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("Sukces: ${response.body}");
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      authToken = responseData['token'];
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
       );
-
-      print("Response status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        print("Sukces: ${response.body}");
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        authToken = responseData['token'];
-      } else {
-        print("Błąd: ${response.statusCode}");
-        print("Błąd: ${response.body}");
-      }
-    } catch (error) {
-      print("Błąd: $error");
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Niepoprawne dane logowania'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
+  } catch (error) {
+    print("Błąd: $error");
   }
+}
 
   Future<void> fetchData() async {
     try {
@@ -152,7 +160,7 @@ class LoginState extends State<_Login> {
                   decoration: InputDecoration(
                       labelText: "Email",
                       labelStyle: const TextStyle(
-                          color: AppColors.grayAccent, fontSize: 15),
+                          color: AppColors.greyAccent, fontSize: 15),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide:
@@ -160,7 +168,7 @@ class LoginState extends State<_Login> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(
-                          color: AppColors.grayAccent,
+                          color: AppColors.greyAccent,
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(15)),
@@ -171,7 +179,7 @@ class LoginState extends State<_Login> {
                   decoration: InputDecoration(
                       labelText: "Hasło",
                       labelStyle: const TextStyle(
-                          color: AppColors.grayAccent, fontSize: 15),
+                          color: AppColors.greyAccent, fontSize: 15),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide:
@@ -179,7 +187,7 @@ class LoginState extends State<_Login> {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(
-                          color: AppColors.grayAccent,
+                          color: AppColors.greyAccent,
                         ),
                       ),
                       contentPadding: const EdgeInsets.all(15)),
@@ -205,14 +213,11 @@ class LoginState extends State<_Login> {
                           _passController.text.isNotEmpty) {
                         home.login = _textController.text;
                         home.password = _passController.text;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MainPage()),
-                        );
+                        home.postData(context);
                       } else {
                         myValue = 'Pole tekstowe nie może być puste.';
                       }
-                      home.postData();
+                      
                     },
                     child: const Text(
                       'Zaloguj się',
@@ -243,7 +248,7 @@ class LoginState extends State<_Login> {
                   children: [
                     TextSpan(
                       text: 'Nie masz konta?',
-                      style: TextStyle(color: AppColors.grayAccent),
+                      style: TextStyle(color: AppColors.greyAccent),
                     ),
                     TextSpan(
                       text: ' Zarejestruj się.',
@@ -266,20 +271,20 @@ class LoginState extends State<_Login> {
                     child: Container(
                       height: 1,
                       width: 20,
-                      color: AppColors.grayAccent,
+                      color: AppColors.greyAccent,
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
                       'lub',
-                      style: TextStyle(color: AppColors.grayAccent),
+                      style: TextStyle(color: AppColors.greyAccent),
                     ),
                   ),
                   Expanded(
                     child: Container(
                       height: 1,
-                      color: AppColors.grayAccent,
+                      color: AppColors.greyAccent,
                     ),
                   ),
                 ],
