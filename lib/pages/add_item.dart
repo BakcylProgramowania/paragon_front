@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:multiple_search_selection/multiple_search_selection.dart';
 // import 'package:paragon_front/default/colors.dart';
-import 'package:paragon_front/default/default_widgets.dart';
+import '/default/default_widgets.dart';
 
 class AddItemPage extends StatefulWidget {
   const AddItemPage({super.key, required this.friends});

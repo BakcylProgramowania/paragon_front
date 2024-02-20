@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paragon_front/pages/history.dart';
 import 'package:paragon_front/pages/main_page.dart';
-import 'package:paragon_front/default/colors.dart';
+import '../default/colors.dart';
 import '/default/default_widgets.dart';
 
 class FriendsList extends StatefulWidget {

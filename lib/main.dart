@@ -11,6 +11,7 @@ import "package:http/http.dart" as http;
 import 'pages/main_page.dart';
 import './pages/history.dart';
 import './pages/friends_list.dart';
+import 'nav_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,12 +64,13 @@ class _Login extends StatefulWidget {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("Sukces: ${response.body}");
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      authToken = responseData['token'];
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainPage()),
+        MaterialPageRoute(builder: (context) => NavigationExample()),
       );
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      authToken = responseData['token'];
+      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
