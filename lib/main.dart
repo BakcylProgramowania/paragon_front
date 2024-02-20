@@ -16,13 +16,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//Bilans value
-double bilans = 40.25;
-//
+// Bilans value - Update with your real balance calculations 
+double bilans = 40.25; 
+
 class MainPage extends StatelessWidget {
   MainPage({super.key});
 
-// History data
+  // History data
   final List<Map<String, dynamic>> historyData = [
     {'icon': Icons.dining, 'name': 'Wspólne jedzenie', 'amount': '51.60 PLN'},
     {'icon': Icons.movie, 'name': 'Kino', 'amount': '120.00 PLN'},
@@ -33,7 +33,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //App bar
       appBar: AppBar(
         title: const Text(
           'Strona główna',
@@ -59,177 +58,173 @@ class MainPage extends StatelessWidget {
           ),
         ],
       ),
+      body: Stack(children: [
+        // Divider
+        const Positioned(
+          top: -5,
+          left: 10,
+          right: 10,
+          child: Divider(
+            color: AppColors.grayAccent,
+            thickness: 2,
+          ),
+        ),
 
-      body: Stack(
-        children: [
-          //Divider
-          const Positioned(
-            top: -5,
-            left: 10,
-            right: 10,
-            child: Divider(
+        // O nas
+        const Positioned(
+          top: 20,
+          left: 50,
+          child: Text(
+            "O nas",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              shadows: [
+                Shadow(
+                  color: AppColors.defaultTextColor,
+                  offset: Offset(0, -5),
+                ),
+              ],
+              color: Colors.transparent,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryColor,
+              decorationThickness: 3,
+            ),
+          ),
+        ),
+
+        Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 50, left: 50, right: 50),
+              child: const Text(
+                'Witamy w naszej małej, ale ambitnej społeczności! Jesteśmy grupą kreatywnych umysłów, zjednoczonych wokół celu stworzenia aplikacji, która ułatwi Ci życie. Prezentujemy nasz projekt - innowacyjną aplikację do księgowości! Razem zmieniamy zasady gry i sprawiamy, że zarządzanie finansami staje się przyjemne. Dołącz do naszej przygody i zacznijmy liczyć razem!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15,
+                  color: AppColors.grayAccent,
+                ),
+              ),
+            ),
+
+            // Spacing from text
+            const SizedBox(height: 20),
+
+            // Button
+            SizedBox(
+              width: 300,
+              height: 50,
+              child: ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.receipt_long_outlined,
+                  color: AppColors.defaultTextColor,
+                  size: 30.0,
+                ),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.google,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                label: const Text(
+                  'Policz paragon',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.defaultTextColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+
+        // Bilans
+        const Positioned(
+          top: 340,
+          left: 50,
+          child: Text(
+            "Bilans",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              shadows: [
+                Shadow(
+                  color: AppColors.defaultTextColor,
+                  offset: Offset(0, -5),
+                ),
+              ],
+              color: Colors.transparent,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryColor,
+              decorationThickness: 3,
+            ),
+          ),
+        ),
+
+        Positioned(
+          left: 80,
+          bottom: 290,
+          child: CustomPaint(
+            size: Size(
+                280, (280 * 0.625).toDouble()), 
+            painter: RPSCustomPainter(),
+          ),
+        ),
+
+        // Historia
+        const Positioned(
+          top: 500,
+          left: 50,
+          child: Text(
+            "Historia",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              shadows: [
+                Shadow(
+                  color: AppColors.defaultTextColor,
+                  offset: Offset(0, -5),
+                ),
+              ],
+              color: Colors.transparent,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryColor,
+              decorationThickness: 3,
+            ),
+          ),
+        ),
+
+        // History List
+        Positioned(
+          top: 530, 
+          left: 50,
+          right: 50, 
+          child: ListView.separated(
+            shrinkWrap: true, 
+            itemCount: historyData.length,
+            itemBuilder: (context, index) {
+              final entry = historyData[index];
+              return _buildHistoryItem(entry['icon'], entry['name'], entry['amount']);
+            },
+            separatorBuilder: (context, index) => const Divider(
               color: AppColors.grayAccent,
+              height: 0,
               thickness: 2,
             ),
           ),
-
-          //O nas
-          const Positioned(
-            top: 20,
-            left: 50,
-            child: Text(
-              "O nas",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                shadows: [
-                  Shadow(
-                    color: AppColors.defaultTextColor,
-                    offset: Offset(0, -5),
-                  ),
-                ],
-                color: Colors.transparent,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryColor,
-                decorationThickness: 3,
-              ),
-            ),
-          ),
-
-          Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 50, left: 50, right: 50),
-                child: const Text(
-                  'Witamy w naszej małej, ale ambitnej społeczności! Jesteśmy grupą kreatywnych umysłów, zjednoczonych wokół celu stworzenia aplikacji, która ułatwi Ci życie. Prezentujemy nasz projekt - innowacyjną aplikację do księgowości! Razem zmieniamy zasady gry i sprawiamy, że zarządzanie finansami staje się przyjemne. Dołącz do naszej przygody i zacznijmy liczyć razem!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
-                    color: AppColors.grayAccent,
-                  ),
-                ),
-              ),
-
-              // Spacing from text
-              const SizedBox(height: 20),
-
-              //Button
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.receipt_long_outlined,
-                    color: AppColors.defaultTextColor,
-                    size: 30.0,
-                  ),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.google,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  label: const Text(
-                    'Policz paragon',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.defaultTextColor,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          //Bilans
-          const Positioned(
-            top: 340,
-            left: 50,
-            child: Text(
-              "Bilans",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                shadows: [
-                  Shadow(
-                    color: AppColors.defaultTextColor,
-                    offset: Offset(0, -5),
-                  ),
-                ],
-                color: Colors.transparent,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryColor,
-                decorationThickness: 3,
-              ),
-            ),
-          ),
-
-
-          Positioned(
-            left: 80,
-            bottom: 290,
-        child: CustomPaint(
-  size: Size(280,(280*0.625).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-  painter: RPSCustomPainter(),
-          ),
-          ),
-
-
-        //Historia
-        const Positioned(
-            top: 500,
-            left: 50,
-            child: Text(
-              "Historia",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                shadows: [
-                  Shadow(
-                    color: AppColors.defaultTextColor,
-                    offset: Offset(0, -5),
-                  ),
-                ],
-                color: Colors.transparent,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryColor,
-                decorationThickness: 3,
-              ),
-            ),
-          ),
-
-       Positioned(
-        top: 530,
-        right: 0,
-        child: ListView.separated(
-
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: historyData.length, 
-                  itemBuilder: (context, index) {
-                    final entry = historyData[index];
-                    return _buildHistoryItem(entry['icon'], entry['name'], entry['amount']);
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    color: AppColors.grayAccent,
-                    height: 0, 
-                    thickness: 2,
-                  ),
-                ),
-       ),
-
-        ],
-      ),
+        ),
+      ]),
     );
   }
 }
 
 Widget _buildHistoryItem(IconData icon, String name, String amount) {
   return Container(
-    margin: const EdgeInsets.only(left: 50, right: 50),
+    margin: const EdgeInsets.only(left: 0, right: 0),
     width: 300,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,7 +232,7 @@ Widget _buildHistoryItem(IconData icon, String name, String amount) {
         Row(
           children: [
             SizedBox(
-              width: 40,
+              width: 0,
               height: 40,
               child: Icon(
                 icon,
@@ -245,7 +240,7 @@ Widget _buildHistoryItem(IconData icon, String name, String amount) {
                 size: 30,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 80),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,16 +269,12 @@ Widget _buildHistoryItem(IconData icon, String name, String amount) {
   );
 }
 
-
-//Custom painter
-class RPSCustomPainter extends CustomPainter{
-  
+// Custom painter
+class RPSCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    
-    
 
-  // Layer 1
+    // Layer 1
   Paint paintFill0 = Paint()
       ..color = const Color.fromARGB(89, 248, 95, 106)
       ..style = PaintingStyle.fill
@@ -362,14 +353,13 @@ class RPSCustomPainter extends CustomPainter{
     )..layout(maxWidth: size.width*0.67, minWidth: size.width*0.67);
     tp_7400399423681.paint(canvas,pivot_7400399423681);
     canvas.restore();
-  
-    
+
+
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-  
-}
+} 
 
