@@ -91,6 +91,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  lint:
+    dependency: transitive
+    description:
+      name: lint
+      sha256: d758a5211fce7fd3f5e316f804daefecdc34c7e53559716125e6da7388ae8565
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   lints:
     dependency: transitive
     description:
@@ -123,6 +131,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  multiple_search_selection:
+    dependency: "direct main"
+    description:
+      name: multiple_search_selection
+      sha256: "348105213d2553bad36fbc96a796102ceedbec561d1e58208197e4e6462f45be"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.1"
   path:
     dependency: transitive
     description:
@@ -210,3 +226,4 @@ packages:
     version: "0.3.0"
 sdks:
   dart: ">=3.2.2 <4.0.0"
+  flutter: ">=1.17.0"

@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/home': (context) => MainPage(),
-        '/history': (context) => HistoryPage(),
-        '/friends': (context) =>  FriendsList(),
+        '/history': (context) => const HistoryPage(),
+        '/friends': (context) =>  const FriendsList(),
         // inne trasy
       },
       title: 'Flutter Demo',

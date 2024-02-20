@@ -40,13 +40,13 @@ class _HistoryPageState extends State<HistoryPage> {
     }).toList();
 
     return Scaffold(
-      appBar: DefaultAppBar(
+      appBar: const DefaultAppBar(
         title: 'Historia',
       ),
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 50),
             child: DefaultTextField(
               onChanged: (value) {
                 setState(() {
@@ -67,14 +67,14 @@ class _HistoryPageState extends State<HistoryPage> {
                   title: event.eventName,
                   children: <Widget>[
                     ListTile(
-                      title: Text('${event.author}'),
+                      title: Text(event.author),
                       subtitle: RichText(
                         text: TextSpan(
                           style: DefaultTextStyle.of(context).style,
                           children: [
                             TextSpan(
                               text: '${event.price.toStringAsFixed(2)} zł ',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
+import 'package:paragon_front/pages/add_item.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final void Function()? onPlusButtonPressed;
   const DefaultAppBar({
     super.key,
     required this.title,
+    this.onPlusButtonPressed,
   });
 
   @override
@@ -32,7 +35,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             icon:
                 const Icon(Icons.add, color: AppColors.primaryColor, size: 45),
-            onPressed: () {},
+            onPressed: onPlusButtonPressed ?? () {Navigator.of(context).push(MaterialPageRoute(builder: (_){
+              return const AddItemPage(friends: ['jacek', 'placek']);
+            }));},
           ),
         ),
       ],
@@ -112,16 +117,20 @@ List<String>? search(
 
 class DefaultTextField extends StatelessWidget {
   
-  final void Function(String searchedValue) onChanged;
-  const DefaultTextField({super.key, required this.onChanged});
+  final void Function(String)? onChanged;
+  final String labelText;
+  final Widget? suffixIcon;
+  final TextEditingController? controller;
+  const DefaultTextField({super.key, this.onChanged, this.labelText = 'Wyszukaj', this.suffixIcon = const Icon(Icons.search), this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: AppColors.defaultTextColor,
       cursorWidth: 1,
+      controller: controller,
       decoration: InputDecoration(
-          labelText: 'Wyszukaj',
+          labelText: labelText,
           border: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(10)),
@@ -132,10 +141,8 @@ class DefaultTextField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(10)),
-          suffixIcon: const Icon(Icons.search)),
-      onChanged: (searchedValue) {
-        onChanged(searchedValue);
-      },
+          suffixIcon: suffixIcon),
+      onChanged: onChanged,
     );
   }
 }
