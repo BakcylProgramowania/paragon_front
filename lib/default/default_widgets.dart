@@ -35,9 +35,17 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             icon:
                 const Icon(Icons.add, color: AppColors.primaryColor, size: 45),
-            onPressed: onPlusButtonPressed ?? () {Navigator.of(context).push(MaterialPageRoute(builder: (_){
-              return const AddItemPage(friends: ['jacek', 'placek']);
-            }));},
+            onPressed: onPlusButtonPressed ??
+                () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                    return const AddItemPage(friendsList: ['maciek', 'heniek', 'zbyszek', 'wojtek'], friendsPfp: [
+                      'https://avatarfiles.alphacoders.com/331/331455.jpg',
+                      'https://i.pinimg.com/736x/88/4e/11/884e119e3f345f003366c341460514cb.jpg',
+                      'https://avatars.pfptown.com/031/darth-vader-pfp-3906.png',
+                      'https://i.pinimg.com/originals/7d/b9/16/7db9162fb26619d9a18a90542c1ea15a.jpg'
+                    ]);
+                  }));
+                },
           ),
         ),
       ],
@@ -114,14 +122,17 @@ List<String>? search(
   return result.isNotEmpty ? result : null;
 }
 
-
 class DefaultTextField extends StatelessWidget {
-  
   final void Function(String)? onChanged;
   final String labelText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
-  const DefaultTextField({super.key, this.onChanged, this.labelText = 'Wyszukaj', this.suffixIcon = const Icon(Icons.search), this.controller});
+  const DefaultTextField(
+      {super.key,
+      this.onChanged,
+      this.labelText = 'Wyszukaj',
+      this.suffixIcon = const Icon(Icons.search),
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +274,7 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
                           size: displayWidth * .076,
                           color: index == widget.currentPageIndex
                               ? Colors.redAccent
-                              : Color(0xFFC3C3C3),
+                              : const Color(0xFFC3C3C3),
                         ),
                       ],
                     ),

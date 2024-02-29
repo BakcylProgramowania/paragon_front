@@ -36,9 +36,9 @@ class _NavigationExampleState extends State<NavigationExample> {
       body: Stack(
         children: [
           IndexedStack(index: currentPageIndex, children: [
-            FriendsList(),
+            const FriendsList(),
             MainPage(),
-            HistoryPage(),
+            const HistoryPage(),
           ]),
           Positioned(
             bottom: 0,

@@ -71,7 +71,7 @@ class _Login extends StatefulWidget {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Niepoprawne dane logowania'),
           backgroundColor: Colors.red,
         ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:multiple_search_selection/multiple_search_selection.dart';
-// import 'package:paragon_front/default/colors.dart';
+import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/default/default_widgets.dart';
 
 class AddItemPage extends StatefulWidget {
-  const AddItemPage({super.key, required this.friends});
-  final List<String>? friends;
+  const AddItemPage({super.key, this.friendsPfp, this.friendsList});
+  final List<String>? friendsPfp;
+  final List<String>? friendsList;
 
   @override
   State<AddItemPage> createState() => _AddItemPageState();
@@ -53,52 +53,12 @@ class _AddItemPageState extends State<AddItemPage> {
             child: ListView.builder(
                 itemCount: itemList.length,
                 itemBuilder: (ctx, index) {
-                  // if (itemList.length == index) {
-                  //   return Padding(
-                  //     padding:
-                  //         const EdgeInsets.only(bottom: 30, left: 8, right: 8),
-                  //     child: MultipleSearchSelection<String>(
-                  //         title: const Center(
-                  //             child: Column(
-                  //           children: [
-                  //             Text(
-                  //               'Znajdź znajomych',
-                  //               style: TextStyle(
-                  //                   color: AppColors.primaryColor,
-                  //                   fontWeight: FontWeight.bold,
-                  //                   fontSize: 30),
-                  //             ),
-                  //             Divider(
-                  //               color: Colors.black12,
-                  //             )
-                  //           ],
-                  //         )),
-                  //         searchField: TextField(
-                  //             focusNode: _changingFocus,
-                  //             decoration:
-                  //                 const InputDecoration(labelText: 'Znajomi')),
-                  //         items: widget.friends!,
-                  //         pickedItemBuilder: (friend) {
-                  //           return Card(
-                  //               color: AppColors.primaryColor,
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.all(8.0),
-                  //                 child: Text(
-                  //                   friend,
-                  //                   style: const TextStyle(fontSize: 23),
-                  //                 ),
-                  //               ));
-                  //         },
-                  //         fieldToCheck: (f) => f,
-                  //         itemBuilder: (friend, index) {
-                  //           return Text(friend);
-                  //         }),
-                  //   );
-                  // }
-
                   return DismissibleForItems(
+                    setGlobalState: setState,
+                    friendsList: widget.friendsList,
                     itemList: itemList[index],
                     itemsList: itemList,
+                    friendsPfpList: widget.friendsPfp,
                   );
                 }),
           ),
@@ -107,11 +67,19 @@ class _AddItemPageState extends State<AddItemPage> {
 }
 
 class DismissibleForItems extends StatefulWidget {
-  DismissibleForItems({required this.itemList, required this.itemsList})
+  DismissibleForItems(
+      {required this.itemList,
+      required this.itemsList,
+      this.friendsPfpList,
+      this.friendsList,
+      required this.setGlobalState})
       : super(key: ValueKey<List<String>>(itemList));
 
   final List<String> itemList;
+  final List<String>? friendsPfpList;
+  final List<String>? friendsList;
   final List<List<String>> itemsList;
+  final void Function(void Function()) setGlobalState;
 
   @override
   State<DismissibleForItems> createState() => _DismissibleForItemsState();
@@ -121,6 +89,8 @@ class _DismissibleForItemsState extends State<DismissibleForItems> {
   bool _edited = false;
   late TextEditingController _itemNameController;
   late TextEditingController _itemPriceController;
+  final TextEditingController _modalSheetController = TextEditingController();
+  bool checkboxStatus = false;
 
   @override
   void initState() {
@@ -133,7 +103,190 @@ class _DismissibleForItemsState extends State<DismissibleForItems> {
   void dispose() {
     _itemNameController.dispose();
     _itemPriceController.dispose();
+    _modalSheetController.dispose();
     super.dispose();
+  }
+
+  void addFriendsToItem() {
+    List<String>? searchedFriends = [...widget.friendsList!];
+    List<String> chosenFriends = [];
+
+    for (int i = 2; i < widget.itemList.length; i++) {
+      chosenFriends.add(widget.itemList[i]);
+    }
+
+    for (var friend in chosenFriends) {
+      searchedFriends.remove(friend);
+    }
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => StatefulBuilder(
+              builder: (context, setSheetState) => Column(children: <Widget>[
+                if (chosenFriends.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          itemCount: chosenFriends.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (ctx, index) {
+                            return GestureDetector(
+                              onTap: () => setSheetState(() {
+                                if (searchedFriends != null) {
+                                  searchedFriends!.add(chosenFriends[index]);
+                                  searchedFriends!.sort();
+                                }
+                                widget.itemList.removeWhere((element) =>
+                                    element == chosenFriends[index]);
+                                chosenFriends.removeAt(index);
+                                checkboxCheckedForFriendsAutofill();
+                              }),
+                              child: Card(
+                                  color: AppColors.primaryColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(children: [
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            widget.friendsPfpList![
+                                                widget.friendsList!.indexOf(
+                                                    chosenFriends[index])]),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(chosenFriends[index],
+                                          style: const TextStyle(fontSize: 18)),
+                                    ]),
+                                  )),
+                            );
+                          }),
+                    ),
+                  ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text('Wybierz znajomych',
+                      style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DefaultTextField(
+                          controller: _modalSheetController,
+                          onChanged: (searched) {
+                            setSheetState(() {
+                              searchedFriends = search(
+                                  searchingList: widget.friendsList!,
+                                  searchedValue: searched);
+                              if (searchedFriends != null) {
+                                for (int i = 0;
+                                    i < searchedFriends!.length;
+                                    i++) {
+                                  if (chosenFriends
+                                      .contains(searchedFriends![i])) {
+                                    searchedFriends!.removeAt(i);
+                                  }
+                                }
+                              }
+                              //setState(() {});
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Checkbox(
+                        value: checkboxStatus,
+                        activeColor: AppColors.primaryColor,
+                        onChanged: (status) {
+                          setSheetState((() => checkboxStatus = status!));
+                          checkboxCheckedForFriendsAutofill();
+                        })
+                  ],
+                ),
+                Expanded(
+                  child: searchedFriends != null
+                      ? ListView.builder(
+                          itemCount: searchedFriends!.length,
+                          itemBuilder: (ctx, index) {
+                            // return _ChoosableFriendFromList(
+                            //     searchedFriends: searchedFriends,
+                            //     setState: () => setState((){}),
+                            //     chosenFriends: chosenFriends,
+                            //     widget: widget,
+                            //     searchedFriend: searchedFriends![index]);
+                            return GestureDetector(
+                              onTap: () => setSheetState(() {
+                                if (searchedFriends != null) {
+                                  chosenFriends.add(searchedFriends![index]);
+                                  widget.itemList.add(searchedFriends![index]);
+                                  searchedFriends!.removeAt(searchedFriends!
+                                      .indexOf(searchedFriends![index]));
+                                }
+                                checkboxCheckedForFriendsAutofill();
+                              }),
+                              child: AbsorbPointer(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(widget
+                                                    .friendsPfpList![
+                                                widget.friendsList!.indexOf(
+                                                    searchedFriends![index])]),
+                                          ),
+                                          const SizedBox(
+                                            width: 50,
+                                          ),
+                                          Text(searchedFriends![index],
+                                              style: const TextStyle(
+                                                  fontSize: 14)),
+                                        ],
+                                      ),
+                                      const Divider(color: Colors.black12)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                      : const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Text(
+                                  'Nie można znaleźć szukanych znajomych :(',
+                                  style: TextStyle(fontSize: 20))),
+                        ),
+                )
+              ]),
+            ));
+  }
+
+  void checkboxCheckedForFriendsAutofill() {
+    if (checkboxStatus) {
+      var start = widget.itemsList.indexOf(widget.itemList) + 1;
+
+      for (int i = start; i < widget.itemsList.length; i++) {
+        widget.itemsList[i].removeWhere((element) {
+          if (widget.itemsList[i].indexOf(element) > 1 &&
+              widget.itemList.indexOf(element) > 1) {
+            return true;
+          }
+          return false;
+        });
+
+        for (int j = 2; j < widget.itemList.length; j++) {
+          widget.itemsList[i].add(widget.itemList[j]);
+        }
+      }
+    }
+    widget.setGlobalState(() {});
   }
 
   @override
@@ -162,6 +315,64 @@ class _DismissibleForItemsState extends State<DismissibleForItems> {
                         child: Center(
                             child: Text('${widget.itemList[1]} PLN',
                                 style: const TextStyle(fontSize: 20)))),
+                    if (widget.friendsPfpList != null &&
+                        widget.friendsPfpList!.isNotEmpty)
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: addFriendsToItem,
+                          child: Row(
+                            children: [
+                              if (widget.itemList.length > 2) ...[
+                                Stack(
+                                  children: <Widget>[
+                                    if (widget.itemList.length < 7)
+                                      for (var i = 2;
+                                          i < widget.itemList.length;
+                                          i++)
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20 * (i - 2).toDouble()),
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                widget.friendsPfpList![
+                                                    widget.friendsList!.indexOf(
+                                                        widget.itemList[i])]),
+                                          ),
+                                        )
+                                    else
+                                      for (int i = 2; i < 7; i++)
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20 * i.toDouble()),
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                widget.friendsPfpList![
+                                                    widget.friendsList!.indexOf(
+                                                        widget.itemList[i])]),
+                                          ),
+                                        ),
+                                  ],
+                                ),
+                                if (widget.itemList.length > 6)
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 3.0),
+                                    child: Text(
+                                      '...',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                              ] else ...[
+                                const SizedBox(width: 50),
+                                const Icon(
+                                  Icons.add_reaction,
+                                  size: 30,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ]
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                 )
               else
