@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
 import '../default/colors.dart';
+import '../default/default_widgets.dart'; 
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainPage(),
-    );
-  }
-}
-
-// Bilans value - Update with your real balance calculations 
-double bilans = 40.25; 
+double bilans = 40.25;
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});
@@ -33,141 +18,65 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Strona główna',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: AppColors.defaultTextColor,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.person),
-          iconSize: 38,
-          color: AppColors.defaultTextColor,
-          onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            iconSize: 40,
-            color: AppColors.primaryColor,
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Stack(children: [
-        // Divider
-        const Positioned(
-          top: -5,
-          left: 10,
-          right: 10,
-          child: Divider(
-            color: AppColors.greyAccent,
-            thickness: 2,
-          ),
-        ),
-
-        // O nas
-        const Positioned(
-          top: 20,
-          left: 50,
-          child: Text(
-            "O nas",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              shadows: [
-                Shadow(
-                  color: AppColors.defaultTextColor,
-                  offset: Offset(0, -5),
-                ),
-              ],
-              color: Colors.transparent,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryColor,
-              decorationThickness: 3,
-            ),
-          ),
-        ),
-
-        Column(
+      appBar: const DefaultAppBar(title: 'Menu'),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 10),
+            _buildSectionTitle('O nas'),
+
             Container(
-              margin: const EdgeInsets.only(top: 50, left: 50, right: 50),
+              margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: const Text(
-                'Witamy w naszej małej, ale ambitnej społeczności! Jesteśmy grupą kreatywnych umysłów, zjednoczonych wokół celu stworzenia aplikacji, która ułatwi Ci życie. Prezentujemy nasz projekt - innowacyjną aplikację do księgowości! Razem zmieniamy zasady gry i sprawiamy, że zarządzanie finansami staje się przyjemne. Dołącz do naszej przygody i zacznijmy liczyć razem!',
+                'Witamy w naszej aplikacji!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 15,
+                  fontSize: 16,
                   color: AppColors.greyAccent,
                 ),
               ),
             ),
 
-            // Spacing from text
             const SizedBox(height: 20),
 
-            // Button
-            SizedBox(
-              width: 300,
-              height: 50,
-              child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.receipt_long_outlined,
-                  color: AppColors.defaultTextColor,
-                  size: 30.0,
-                ),
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.google,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                label: const Text(
-                  'Policz paragon',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            Center(
+              child: SizedBox(
+                width: 300,
+                height: 50,
+                child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.receipt_long_outlined,
                     color: AppColors.defaultTextColor,
+                    size: 30.0,
+                  ),
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.google,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  label: const Text(
+                    'Policz paragon',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.defaultTextColor,
+                    ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
 
-        // Bilans
-        const Positioned(
-          top: 340,
-          left: 50,
-          child: Text(
-            "Bilans",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              shadows: [
-                Shadow(
-                  color: AppColors.defaultTextColor,
-                  offset: Offset(0, -5),
-                ),
-              ],
-              color: Colors.transparent,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryColor,
-              decorationThickness: 3,
-            ),
-          ),
-        ),
+            const SizedBox(height: 40),
 
-        Positioned(
-          left: 80,
-          bottom: 290,
+            _buildSectionTitle('Bilans'),
+
+            Padding(
+          padding: const EdgeInsets.only(left: 80, bottom: 0),
           child: CustomPaint(
             size: Size(
                 280, (280 * 0.625).toDouble()), 
@@ -175,54 +84,60 @@ class MainPage extends StatelessWidget {
           ),
         ),
 
-        // Historia
-        const Positioned(
-          top: 500,
-          left: 50,
-          child: Text(
-            "Historia",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              shadows: [
-                Shadow(
-                  color: AppColors.defaultTextColor,
-                  offset: Offset(0, -5),
-                ),
-              ],
-              color: Colors.transparent,
-              decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryColor,
-              decorationThickness: 3,
-            ),
-          ),
-        ),
+            const SizedBox(height: 40),
 
-        // History List
-        Positioned(
-          top: 530, 
-          left: 50,
-          right: 50, 
-          child: ListView.separated(
-            shrinkWrap: true, 
-            itemCount: historyData.length,
-            itemBuilder: (context, index) {
-              final entry = historyData[index];
-              return _buildHistoryItem(entry['icon'], entry['name'], entry['amount']);
-            },
-            separatorBuilder: (context, index) => const Divider(
-              color: AppColors.greyAccent,
-              height: 0,
-              thickness: 2,
-            ),
-          ),
+            _buildSectionTitle('Historia'),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: historyData.length,
+                itemBuilder: (context, index) {
+                  return _buildHistoryItem(
+                      historyData[index]['icon'],
+                      historyData[index]['name'],
+                      historyData[index]['amount']
+                  );
+                },
+                separatorBuilder: (context, index) => const Divider(
+                  color: AppColors.greyAccent,
+                  height: 30,
+                  thickness: 2,
+                ),
+              ),
+            )
+          ],
         ),
-      ]),
+      ),
     );
   }
-}
 
-Widget _buildHistoryItem(IconData icon, String name, String amount) {
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 50, bottom: 10),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          shadows: [
+            Shadow(
+              color: AppColors.defaultTextColor,
+              offset: Offset(0, -5),
+            ),
+          ],
+          color: Colors.transparent,
+          decoration: TextDecoration.underline,
+          decorationColor: AppColors.primaryColor,
+          decorationThickness: 3,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryItem(IconData icon, String name, String amount) {
   return Container(
     margin: const EdgeInsets.only(left: 0, right: 0),
     width: 300,
@@ -233,7 +148,7 @@ Widget _buildHistoryItem(IconData icon, String name, String amount) {
           children: [
             SizedBox(
               width: 0,
-              height: 40,
+              height: 20,
               child: Icon(
                 icon,
                 color: AppColors.defaultTextColor,
@@ -267,6 +182,7 @@ Widget _buildHistoryItem(IconData icon, String name, String amount) {
       ],
     ),
   );
+}
 }
 
 // Custom painter
@@ -361,5 +277,4 @@ class RPSCustomPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-} 
-
+}
