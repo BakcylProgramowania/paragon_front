@@ -19,97 +19,58 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const DefaultAppBar(title: 'Menu'),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            _buildSectionTitle('O nas'),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: constraints.maxHeight * 0.05), 
 
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: const Text(
-                'Witamy w naszej aplikacji!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: AppColors.greyAccent,
-                ),
-              ),
-            ),
+                _buildSectionTitle('Bilans'),
 
-            const SizedBox(height: 20),
+                SizedBox(height: constraints.maxHeight * 0.02),
 
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 50,
-                child: ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.receipt_long_outlined,
-                    color: AppColors.defaultTextColor,
-                    size: 30.0,
+                Padding(
+                  padding: const EdgeInsets.only(left: 50),
+                  child: CustomPaint(
+                    size: Size(
+                        constraints.maxWidth * 0.8, 
+                        constraints.maxWidth * 0.8 * 0.625), 
+                    painter: RPSCustomPainter(),
                   ),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.google,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                ),
+
+                SizedBox(height: constraints.maxHeight * 0.05), 
+
+                _buildSectionTitle('Historia'),
+
+                SizedBox(height: constraints.maxHeight * 0.02),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: historyData.length,
+                    itemBuilder: (context, index) {
+                      return _buildHistoryItem(
+                          historyData[index]['icon'],
+                          historyData[index]['name'],
+                          historyData[index]['amount']
+                      );
+                    },
+                    separatorBuilder: (context, index) => const Divider(
+                      color: AppColors.greyAccent,
+                      height: 30,
+                      thickness: 2,
                     ),
                   ),
-                  label: const Text(
-                    'Policz paragon',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.defaultTextColor,
-                    ),
-                  ),
-                ),
-              ),
+                )
+              ],
             ),
-
-            const SizedBox(height: 40),
-
-            _buildSectionTitle('Bilans'),
-
-            Padding(
-          padding: const EdgeInsets.only(left: 80, bottom: 0),
-          child: CustomPaint(
-            size: Size(
-                280, (280 * 0.625).toDouble()), 
-            painter: RPSCustomPainter(),
-          ),
-        ),
-
-            const SizedBox(height: 40),
-
-            _buildSectionTitle('Historia'),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: historyData.length,
-                itemBuilder: (context, index) {
-                  return _buildHistoryItem(
-                      historyData[index]['icon'],
-                      historyData[index]['name'],
-                      historyData[index]['amount']
-                  );
-                },
-                separatorBuilder: (context, index) => const Divider(
-                  color: AppColors.greyAccent,
-                  height: 30,
-                  thickness: 2,
-                ),
-              ),
-            )
-          ],
-        ),
+          );
+        }
       ),
     );
   }
@@ -138,51 +99,47 @@ class MainPage extends StatelessWidget {
   }
 
   Widget _buildHistoryItem(IconData icon, String name, String amount) {
-  return Container(
-    margin: const EdgeInsets.only(left: 0, right: 0),
-    width: 300,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            SizedBox(
-              width: 0,
-              height: 20,
-              child: Icon(
+    return Container(
+      margin: const EdgeInsets.only(left: 0, right: 0),
+      width: 300,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(
                 icon,
                 color: AppColors.defaultTextColor,
                 size: 30,
               ),
-            ),
-            const SizedBox(width: 80),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+              const SizedBox(width: 50),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center, 
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 15, 
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        Text(
-          amount,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.defaultTextColor,
-            fontWeight: FontWeight.bold,
+                ],
+              ),
+            ],
           ),
-        ),
-      ],
-    ),
-  );
-}
+          Text(
+            amount,
+            style: const TextStyle(
+              fontSize: 14, 
+              color: AppColors.defaultTextColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // Custom painter
