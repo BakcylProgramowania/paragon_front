@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paragon_front/pages/history.dart';
-import 'package:paragon_front/pages/main_page.dart';
 import '../default/colors.dart';
 import '/default/default_widgets.dart';
 
@@ -36,8 +34,7 @@ class _FriendsListState extends State<FriendsList> {
   }
 
   @override
-  void dispose()
-  {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
@@ -47,7 +44,6 @@ class _FriendsListState extends State<FriendsList> {
     return Scaffold(
       appBar: const DefaultAppBar(title: 'Znajomi'),
       body: (() {
-        if (widget.friendsList != null) {
           return Column(
             children: [
               Container(
@@ -139,56 +135,41 @@ class _FriendsListState extends State<FriendsList> {
                   width: 330,
                   child: Divider(height: 10, color: Colors.black12)),
               () {
-                if (_searchedFriendsList != null) {
-                  return Expanded(
-                    child: ListView.builder(
-                        //shrinkWrap: true,
-                        itemCount: _searchedFriendsList!.length,
-                        itemBuilder: (context, index) {
-                          return DefaultExpansionTile(
-                            title: _searchedFriendsList![index],
-                            imageLink: widget.linksToFriendsPfps?[
-                                _searchedFriendsList?[index]],
-                            children: widget.friendsHistory?[
-                                        _searchedFriendsList![index]]
-                                    ?.map((e) => Center(child: Text(e)))
-                                    .toList() ??
-                                [
-                                  const Center(
-                                      child: Text(
-                                          'Nie dokonałeś jeszcze wspólnych rozliczeń'))
-                                ],
-                          );
-                        }),
-                  );
-                } else {
+                if (widget.friendsList == null) {
+                  return const Center(child: Text('Nie masz jeszcze znajomych :('));
+                }
+
+                if (_searchedFriendsList == null) {
                   return const Center(
                       child: Text('Nie można znaleźć szukanych znajomych'));
                 }
+
+                
+
+                return Expanded(
+                  child: ListView.builder(
+                      //shrinkWrap: true,
+                      itemCount: _searchedFriendsList!.length,
+                      itemBuilder: (context, index) {
+                        return DefaultExpansionTile(
+                          title: _searchedFriendsList![index],
+                          imageLink: widget.linksToFriendsPfps?[
+                              _searchedFriendsList?[index]],
+                          children: widget
+                                  .friendsHistory?[_searchedFriendsList![index]]
+                                  ?.map((e) => Center(child: Text(e)))
+                                  .toList() ??
+                              [
+                                const Center(
+                                    child: Text(
+                                        'Nie dokonałeś jeszcze wspólnych rozliczeń'))
+                              ],
+                        );
+                      }),
+                );
               }(),
-              DefaultNavigationBar(
-                currentPageIndex: 0,
-                onPageChanged: (index) {
-                  if (index == 0) {
-                    return;
-                  }
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    if (index == 1) {
-                      return MainPage();
-                    } else if (index == 2) {
-                      return const HistoryPage();
-                    } else {
-                      return const FriendsList();
-                    }
-                  }));
-                },
-              ),
             ],
           );
-        } else {
-          return const Center(child: Text('Nie masz jeszcze znajomych :('));
-        }
       })(),
     );
   }

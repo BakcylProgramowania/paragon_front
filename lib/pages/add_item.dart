@@ -62,6 +62,16 @@ class _AddItemPageState extends State<AddItemPage> {
                   );
                 }),
           ),
+          FilledButton(
+              style: ButtonStyle(
+                  shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  )),
+                  backgroundColor: const MaterialStatePropertyAll<Color>(
+                      AppColors.primaryColor)),
+              onPressed: () {},
+              child: const Text('Dodaj')),
         ]));
   }
 }
@@ -389,7 +399,7 @@ class _DismissibleForItemsState extends State<DismissibleForItems> {
                 ),
               const Divider(
                 color: Colors.black12,
-              )
+              ),
             ],
           ),
         ),
