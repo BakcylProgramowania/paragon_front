@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors, use_build_context_synchronously
 
 // ignore: unused_import
 
@@ -12,6 +12,7 @@ import 'pages/main_page.dart';
 import './pages/history.dart';
 import './pages/friends_list.dart';
 import 'nav_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,15 +42,23 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+Future<void> storeAuthTokenLocally(String authToken) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('authToken', authToken);
+}
+Future<String?> getAuthTokenLocally() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('authToken');
+}
 
 // dsad
 // ignore: must_be_immutable
 class _Login extends StatefulWidget {
-  late String authToken = "";
+  late String? authToken = "";
   String login = "";
   String password = "";
 
-  Future<void> postData(BuildContext context) async {
+ Future<void> postData(BuildContext context) async {
   final url = Uri.https("paragon.wroc.ovh", "/login");
 
   try {
@@ -63,15 +72,33 @@ class _Login extends StatefulWidget {
     print("Response body: ${response.body}");
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print("Sukces: ${response.body}");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => NavigationExample()),
-      );
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      authToken = responseData['token'];
-      
+
+      final String? authHeader = response.headers['authorization'];
+                            
+      // authToken = authHeader;
+      print(authHeader);
+       print('Response headers: ${response.headers}');
+       print('Content-Type header: ${response.headers['Authorization']}');
+      // print(authToken);
+        if (authHeader != null) {
+          final String authToken = authHeader;
+          storeAuthTokenLocally(authToken);
+          
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NavigationExample()),
+          );
+        } else {
+          // Brak nagłówka autoryzacji w odpowiedzi serwera
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Błąd autentykacji: Niepoprawny format nagłówka "Authorization" w odpowiedzi serwera'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
     } else {
+      // Błędne dane logowania
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Niepoprawne dane logowania'),
@@ -81,16 +108,16 @@ class _Login extends StatefulWidget {
     }
   } catch (error) {
     print("Błąd: $error");
+    // Obsługa błędów, np. wyświetlenie odpowiedniego komunikatu
   }
 }
-
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.https("paragon.wroc.ovh", "/some_endpoint"),
-        headers: {'Authorization': 'Bearer $authToken'},
+        Uri.https("paragon.wroc.ovh", "/login"),
+        headers: {'Authorization': '$authToken'},
       );
-
+      print("AuthToken: $authToken");
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
     } catch (error) {

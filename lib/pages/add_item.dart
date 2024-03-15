@@ -1,6 +1,13 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/default/default_widgets.dart';
+import 'dart:convert';
+import "package:http/http.dart" as http;
+import '../main.dart';
 
 class AddItemPage extends StatefulWidget {
   const AddItemPage({super.key, this.friendsPfp, this.friendsList});
@@ -11,14 +18,55 @@ class AddItemPage extends StatefulWidget {
   State<AddItemPage> createState() => _AddItemPageState();
 }
 
+Future<void> sendReceipt( List<List<String>> addedItemList) async {
+  
+  final String? authToken = getAuthTokenLocally() as String?;
+final List<Map<String, dynamic>> items = addedItemList.map((item) {
+    return {
+      "whoBuy": "26375126fgs2s8",
+      "item": item[0],
+      "price": double.parse(item[1]), // Zamień na liczbę zmiennoprzecinkową (double)
+      "amount": 1, // Zamień na liczbę całkowitą (int)
+    };
+  }).toList();
+
+  if (authToken != null) {
+    final url = Uri.https("paragon.wroc.ovh", "/receipt");
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken, 
+        },
+        body: jsonEncode({'reciptName': 'nazwa paragonu', 'data': {'items': items,}}),
+      );
+
+      print("Response status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+    } catch (error) {
+      print("Błąd: $error");
+    }
+  } 
+  else {
+    // Jeśli nie masz authtoken
+    print("Nie działa wysyłanie, bo nie ma authtokena");
+  }
+}
+
+
 class _AddItemPageState extends State<AddItemPage> {
   final List<List<String>> itemList = [];
+  List<List<String>> addedItemsList = [];
   final _itemNameController = TextEditingController();
   final _itemPriceController = TextEditingController();
-  final _changingFocus = FocusNode();
+  final _changingFocus = FocusNode(); 
   // final MultipleSearchController _friendsSelectionFieldController =
   //     MultipleSearchController();
 
+  
   @override
   void dispose() {
     _itemNameController.dispose();
@@ -70,7 +118,15 @@ class _AddItemPageState extends State<AddItemPage> {
                   )),
                   backgroundColor: const MaterialStatePropertyAll<Color>(
                       AppColors.primaryColor)),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  addedItemsList.addAll(itemList);
+                  print("Dodane przedmioty: $addedItemsList");
+                  sendReceipt(addedItemsList);
+                });
+             
+                //postData();
+              },
               child: const Text('Dodaj')),
         ]));
   }

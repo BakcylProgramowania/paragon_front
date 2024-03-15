@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/pages/add_item.dart';
 
+
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final void Function()? onPlusButtonPressed;
@@ -26,7 +27,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: IconButton(
           icon: const Icon(Icons.account_circle),
           iconSize: 45,
-          onPressed: () {},
+          onPressed: () {
+            
+          },
         ),
       ),
       actions: <Widget>[
