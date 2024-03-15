@@ -3,15 +3,15 @@ import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/pages/add_item.dart';
 import 'package:paragon_front/pages/settings.dart';
 
-
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final void Function()? onPlusButtonPressed;
+
   const DefaultAppBar({
-    super.key,
+    Key? key,
     required this.title,
     this.onPlusButtonPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,37 +23,20 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 35,
         ),
       ),
-<<<<<<< HEAD
-      leading: Container(
-        margin: const EdgeInsets.only(left: 20),
-        child: IconButton(
-          icon: const Icon(Icons.account_circle),
-          iconSize: 45,
-          onPressed: () {
-            
-          },
-=======
-      leading: FittedBox(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: IconButton(
-            icon: const Icon(Icons.account_circle),
-            iconSize: 65,
-            onPressed: () {
-               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                    return const SettingsPage();
-                  }));
-            },
-          ),
->>>>>>> 6b487aff5bd763b775bd8c73b0b62989425eb987
-        ),
+      leading: IconButton(
+        icon: const Icon(Icons.account_circle),
+        iconSize: 45,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return const SettingsPage();
+          }));
+        },
       ),
       actions: <Widget>[
         Container(
           margin: const EdgeInsets.only(right: 20),
           child: IconButton(
-            icon:
-                const Icon(Icons.add, color: AppColors.primaryColor, size: 45),
+            icon: const Icon(Icons.add, color: AppColors.primaryColor, size: 45),
             onPressed: onPlusButtonPressed ??
                 () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
@@ -83,8 +66,13 @@ class DefaultExpansionTile extends StatelessWidget {
   final String title;
   final String? imageLink;
   final List<Widget> children;
-  const DefaultExpansionTile(
-      {super.key, required this.title, required this.children, this.imageLink});
+
+  const DefaultExpansionTile({
+    Key? key,
+    required this.title,
+    required this.children,
+    this.imageLink,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +83,8 @@ class DefaultExpansionTile extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             child: ExpansionTile(
-                title: Row(children: [
+              title: Row(
+                children: [
                   if (imageLink != null)
                     Container(
                       margin: const EdgeInsets.only(right: 10),
@@ -106,38 +95,42 @@ class DefaultExpansionTile extends StatelessWidget {
                   Text(
                     title,
                   )
-                ]),
-                iconColor: AppColors.primaryColor,
-                collapsedIconColor: AppColors.primaryColor,
-                children: [
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: children,
-                  )
-                ]),
+                ],
+              ),
+              iconColor: AppColors.primaryColor,
+              collapsedIconColor: AppColors.primaryColor,
+              children: [
+                ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: children,
+                )
+              ],
+            ),
           ),
         ),
         const SizedBox(
-            width: 330,
-            child: Divider(
-              height: 10,
-              color: Colors.black12,
-            ))
+          width: 330,
+          child: Divider(
+            height: 10,
+            color: Colors.black12,
+          ),
+        )
       ],
     );
   }
 }
 
-List<String>? search(
-    {String searchedValue = '', required List<String> searchingList}) {
+List<String>? search({
+  String searchedValue = '',
+  required List<String> searchingList,
+}) {
   List<String> result = [];
   for (var element in searchingList) {
     if (element.toLowerCase().contains(searchedValue.toLowerCase())) {
       result.add(element);
     }
   }
-
   return result.isNotEmpty ? result : null;
 }
 
@@ -146,12 +139,14 @@ class DefaultTextField extends StatelessWidget {
   final String labelText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
-  const DefaultTextField(
-      {super.key,
-      this.onChanged,
-      this.labelText = 'Wyszukaj',
-      this.suffixIcon = const Icon(Icons.search),
-      this.controller});
+
+  const DefaultTextField({
+    Key? key,
+    this.onChanged,
+    this.labelText = 'Wyszukaj',
+    this.suffixIcon = const Icon(Icons.search),
+    this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,18 +155,22 @@ class DefaultTextField extends StatelessWidget {
       cursorWidth: 1,
       controller: controller,
       decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(10)),
-          labelStyle: const TextStyle(color: AppColors.primaryColor),
-          focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(10)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(10)),
-          suffixIcon: suffixIcon),
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColors.primaryColor),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelStyle: const TextStyle(color: AppColors.primaryColor),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColors.primaryColor),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColors.primaryColor),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        suffixIcon: suffixIcon,
+      ),
       onChanged: onChanged,
     );
   }
@@ -232,10 +231,8 @@ class _DefaultNavigationBarState extends State<DefaultNavigationBar> {
                 child: AnimatedContainer(
                   duration: const Duration(seconds: 1),
                   curve: Curves.fastLinearToSlowEaseIn,
-                  height:
-                      index == widget.currentPageIndex ? displayWidth * .13 : 0,
-                  width:
-                      index == widget.currentPageIndex ? displayWidth * 1.2 : 0,
+                  height: index == widget.currentPageIndex ? displayWidth * .13 : 0,
+                  width: index == widget.currentPageIndex ? displayWidth * 1.2 : 0,
                   decoration: BoxDecoration(
                     color: index == widget.currentPageIndex
                         ? Colors.redAccent.withOpacity(.2)

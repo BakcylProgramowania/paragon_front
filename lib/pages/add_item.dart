@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:async';
 
@@ -18,55 +18,67 @@ class AddItemPage extends StatefulWidget {
   State<AddItemPage> createState() => _AddItemPageState();
 }
 
-Future<void> sendReceipt( List<List<String>> addedItemList) async {
-  
-  final String? authToken = getAuthTokenLocally() as String?;
-final List<Map<String, dynamic>> items = addedItemList.map((item) {
-    return {
-      "whoBuy": "26375126fgs2s8",
-      "item": item[0],
-      "price": double.parse(item[1]), // Zamień na liczbę zmiennoprzecinkową (double)
-      "amount": 1, // Zamień na liczbę całkowitą (int)
-    };
-  }).toList();
+Future<void> sendReceipt(List<List<String>> addedItemList) async {
+  // Pobranie authtokena
+  final String? authToken = await getAuthTokenLocally();
 
+  // Sprawdzenie czy authtoken został pobrany poprawnie
   if (authToken != null) {
     final url = Uri.https("paragon.wroc.ovh", "/receipt");
 
     try {
+      // Mapowanie przedmiotów na odpowiedni format
+      final List<Map<String, dynamic>> items = addedItemList.map((item) {
+        try {
+          final int price = int.parse(item[1]);
+          return {
+            "whoBuy": "65786066b8bbf529cbc56fc1",
+            "item": item[0],
+            "price": price,
+            "amount": 1,
+          };
+        } catch (e) {
+          print("Błąd podczas parsowania ceny: $e");
+          print("Dane, które powodują problem: $item");
+          throw Exception("Błąd podczas parsowania ceny");
+        }
+      }).toList();
+
+      // Wysłanie żądania HTTP POST
       final response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': authToken, 
+          'Authorization': authToken,
         },
-        body: jsonEncode({'reciptName': 'nazwa paragonu', 'data': {'items': items,}}),
+        body: jsonEncode({
+          "reciptName": "Zakupy w Lidlu",
+          "data": {"items": items}
+        }),
       );
+      print("Request body: ${jsonEncode({"reciptName": "Zakupy w Lidlu", "data": {"items": items}})}");
 
+      // Wyświetlenie odpowiedzi
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
-
     } catch (error) {
       print("Błąd: $error");
     }
-  } 
-  else {
-    // Jeśli nie masz authtoken
+  } else {
+    // Jeśli nie udało się pobrać authtokena
     print("Nie działa wysyłanie, bo nie ma authtokena");
   }
 }
-
 
 class _AddItemPageState extends State<AddItemPage> {
   final List<List<String>> itemList = [];
   List<List<String>> addedItemsList = [];
   final _itemNameController = TextEditingController();
   final _itemPriceController = TextEditingController();
-  final _changingFocus = FocusNode(); 
+  final _changingFocus = FocusNode();
   // final MultipleSearchController _friendsSelectionFieldController =
   //     MultipleSearchController();
 
-  
   @override
   void dispose() {
     _itemNameController.dispose();
@@ -124,7 +136,7 @@ class _AddItemPageState extends State<AddItemPage> {
                   print("Dodane przedmioty: $addedItemsList");
                   sendReceipt(addedItemsList);
                 });
-             
+
                 //postData();
               },
               child: const Text('Dodaj')),
