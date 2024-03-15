@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/pages/add_item.dart';
+import 'package:paragon_front/pages/settings.dart';
 
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,6 +23,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 35,
         ),
       ),
+<<<<<<< HEAD
       leading: Container(
         margin: const EdgeInsets.only(left: 20),
         child: IconButton(
@@ -30,6 +32,20 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {
             
           },
+=======
+      leading: FittedBox(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: IconButton(
+            icon: const Icon(Icons.account_circle),
+            iconSize: 65,
+            onPressed: () {
+               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                    return const SettingsPage();
+                  }));
+            },
+          ),
+>>>>>>> 6b487aff5bd763b775bd8c73b0b62989425eb987
         ),
       ),
       actions: <Widget>[
