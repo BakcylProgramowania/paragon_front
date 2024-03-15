@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/default/default_widgets.dart';
 import 'package:paragon_front/pages/setting.dart';
+import 'package:paragon_front/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,12 +39,16 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text("Ustawienia"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {Navigator.of(context).pop();},
           color: AppColors.primaryColor,
         ),
         actions: [IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (_){
+              return MainPage();
+            }));
+          },
           color: AppColors.primaryColor,
         )]
       ),
