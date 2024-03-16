@@ -30,9 +30,9 @@ class _SignInState extends State<SignIn> {
   }
 
   // Metoda do wysyłania danych
-  Future<void> fetchData(
-      String name, String email, String password) async {
-    final url = Uri.parse("https://paragon.wroc.ovh" "/register"); // Zaktualizuj URL
+  Future<void> fetchData(String name, String email, String password) async {
+    final url =
+        Uri.parse("https://paragon.wroc.ovh" "/register"); // Zaktualizuj URL
     print("work");
     try {
       final response = await http.post(
@@ -50,12 +50,12 @@ class _SignInState extends State<SignIn> {
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
 
-      if (response.statusCode == 200 || response.statusCode == 201 ) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print("Sukces: ${response.body}");
-        Navigator.pushReplacement( 
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
-          );
+        );
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");
@@ -91,13 +91,14 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           Center(
+              child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   text: const TextSpan(
                     style: TextStyle(
-                        fontSize: 80,
+                        fontSize: 90,
                         fontWeight: FontWeight.w800,
                         color: Colors.black),
                     children: [
@@ -246,7 +247,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                postData(); 
+                                postData();
                               }
                             },
                             child: const Text(
@@ -263,7 +264,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
-          ),
+          )),
         ],
       ),
     );
