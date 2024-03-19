@@ -1,7 +1,6 @@
 // ignore_for_file: unused_local_variable, avoid_print, file_names
 
 import 'package:flutter/material.dart';
-import 'package:paragon_front/pages/account.dart';
 import '/default/colors.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
@@ -97,13 +96,14 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           Center(
+              child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   text: const TextSpan(
                     style: TextStyle(
-                        fontSize: 80,
+                        fontSize: 90,
                         fontWeight: FontWeight.w800,
                         color: Colors.black),
                     children: [
@@ -329,7 +329,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
-          ),
+          )),
         ],
       ),
     );

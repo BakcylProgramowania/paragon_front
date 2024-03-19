@@ -18,6 +18,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.2
   multiple_search_selection: ^2.6.1
+  
+  shared_preferences: ^2.0.8
+
   email_validator: ^2.0.1
 
 dev_dependencies:

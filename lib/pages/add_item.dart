@@ -1,6 +1,13 @@
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:paragon_front/default/colors.dart';
 import 'package:paragon_front/default/default_widgets.dart';
+import 'dart:convert';
+import "package:http/http.dart" as http;
+import '../main.dart';
 
 class AddItemPage extends StatefulWidget {
   const AddItemPage({super.key, this.friendsPfp, this.friendsList});
@@ -11,8 +18,61 @@ class AddItemPage extends StatefulWidget {
   State<AddItemPage> createState() => _AddItemPageState();
 }
 
+Future<void> sendReceipt(List<List<String>> addedItemList) async {
+  // Pobranie authtokena
+  final String? authToken = await getAuthTokenLocally();
+
+  // Sprawdzenie czy authtoken został pobrany poprawnie
+  if (authToken != null) {
+    final url = Uri.https("paragon.wroc.ovh", "/receipt");
+
+    try {
+      // Mapowanie przedmiotów na odpowiedni format
+      final List<Map<String, dynamic>> items = addedItemList.map((item) {
+        try {
+          final int price = int.parse(item[1]);
+          return {
+            "whoBuy": "65786066b8bbf529cbc56fc1",
+            "item": item[0],
+            "price": price,
+            "amount": 1,
+          };
+        } catch (e) {
+          print("Błąd podczas parsowania ceny: $e");
+          print("Dane, które powodują problem: $item");
+          throw Exception("Błąd podczas parsowania ceny");
+        }
+      }).toList();
+
+      // Wysłanie żądania HTTP POST
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        },
+        body: jsonEncode({
+          "reciptName": "Zakupy w Lidlu",
+          "data": {"items": items}
+        }),
+      );
+      print("Request body: ${jsonEncode({"reciptName": "Zakupy w Lidlu", "data": {"items": items}})}");
+
+      // Wyświetlenie odpowiedzi
+      print("Response status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    } catch (error) {
+      print("Błąd: $error");
+    }
+  } else {
+    // Jeśli nie udało się pobrać authtokena
+    print("Nie działa wysyłanie, bo nie ma authtokena");
+  }
+}
+
 class _AddItemPageState extends State<AddItemPage> {
   final List<List<String>> itemList = [];
+  List<List<String>> addedItemsList = [];
   final _itemNameController = TextEditingController();
   final _itemPriceController = TextEditingController();
   final _changingFocus = FocusNode();
@@ -70,7 +130,15 @@ class _AddItemPageState extends State<AddItemPage> {
                   )),
                   backgroundColor: const MaterialStatePropertyAll<Color>(
                       AppColors.primaryColor)),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  addedItemsList.addAll(itemList);
+                  print("Dodane przedmioty: $addedItemsList");
+                  sendReceipt(addedItemsList);
+                });
+
+                //postData();
+              },
               child: const Text('Dodaj')),
         ]));
   }

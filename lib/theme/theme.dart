@@ -12,6 +12,6 @@ ThemeData darkMode = ThemeData(
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
-      background: Colors.black,
+      background: Color.fromARGB(255, 5, 5, 5),
       secondary: Color(0xFFcccaca),
     ));
