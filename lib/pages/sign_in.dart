@@ -1,10 +1,12 @@
 // ignore_for_file: unused_local_variable, avoid_print, file_names
 
 import 'package:flutter/material.dart';
+import 'package:paragon_front/pages/account.dart';
 import '/default/colors.dart';
 import 'dart:convert';
 import "package:http/http.dart" as http;
 import "main_page.dart";
+import 'package:email_validator/email_validator.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+
   late TextEditingController _nameController;
   late TextEditingController _secondNameCotroller;
   final formKey = GlobalKey<FormState>();
@@ -30,9 +33,9 @@ class _SignInState extends State<SignIn> {
   }
 
   // Metoda do wysyłania danych
-  Future<void> fetchData(
-      String name, String email, String password) async {
-    final url = Uri.parse("https://paragon.wroc.ovh" "/register"); // Zaktualizuj URL
+  Future<void> fetchData(String name, String email, String password) async {
+    final url =
+        Uri.parse("https://paragon.wroc.ovh" "/register"); // Zaktualizuj URL
     print("work");
     try {
       final response = await http.post(
@@ -50,12 +53,12 @@ class _SignInState extends State<SignIn> {
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
 
-      if (response.statusCode == 200 || response.statusCode == 201 ) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print("Sukces: ${response.body}");
-        Navigator.pushReplacement( 
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainPage()),
-          );
+        );
       } else {
         print("Błąd: ${response.statusCode}");
         print("Błąd: ${response.body}");
@@ -68,13 +71,16 @@ class _SignInState extends State<SignIn> {
   // Metoda do przetwarzania danych
   void postData() async {
     if (formKey.currentState!.validate()) {
-      fetchData(
+      var fetchData2 = fetchData(
         _nameController.text,
-        _emailController.text,
         _passwordController.text,
+        _emailController.text,
       );
     }
   }
+
+  bool _isVisible = false;
+  bool _isVisible2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -174,27 +180,9 @@ class _SignInState extends State<SignIn> {
                                 contentPadding: const EdgeInsets.all(15))),
                         const SizedBox(height: 20.0),
                         TextFormField(
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                                labelText: "Email",
-                                labelStyle: const TextStyle(
-                                    color: AppColors.greyAccent, fontSize: 15),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.primaryColor)),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.greyAccent,
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.all(15))),
-                        const SizedBox(height: 20.0),
-                        TextFormField(
-                          controller: _passwordController,
+                          controller: _emailController,
                           decoration: InputDecoration(
-                              labelText: "Hasło",
+                              labelText: "Email",
                               labelStyle: const TextStyle(
                                   color: AppColors.greyAccent, fontSize: 15),
                               focusedBorder: OutlineInputBorder(
@@ -208,11 +196,76 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ),
                               contentPadding: const EdgeInsets.all(15)),
-                          obscureText: true,
+                          autofillHints: const [AutofillHints.email],
+                          validator: (email) =>
+                              email != null && !EmailValidator.validate(email)
+                                  ? 'Enter a valid email'
+                                  : null,
                         ),
                         const SizedBox(height: 20.0),
                         TextFormField(
+                            controller: _passwordController,
+                            obscureText: !_isVisible,
+                            decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isVisible = !_isVisible;
+                                    });
+                                  },
+                                  icon: _isVisible
+                                      ? const Icon(
+                                          Icons.visibility,
+                                          color: Colors.black,
+                                        )
+                                      : const Icon(Icons.visibility_off,
+                                          color: Colors.grey),
+                                ),
+                                labelText: "Hasło",
+                                labelStyle: const TextStyle(
+                                    color: AppColors.greyAccent, fontSize: 15),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primaryColor)),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.greyAccent,
+                                  ),
+                                ),
+                                contentPadding: const EdgeInsets.all(15)),
+                            validator: (password) {
+                              if (password!.length < 8) {
+                                return 'Hasło powinno mieć co najmniej 8 znaków.';
+                              } else if (!password.contains(RegExp(r'\d'))) {
+                                return 'Hasło powinno mieć co najmniej 1 cyfrę.';
+                              } else if (!password.contains(RegExp(r'[A-Z]'))) {
+                                return 'Hasło powinno mieć co najmniej 1 dużą literę.';
+                              } else if (!password.contains(RegExp(r'[a-z]'))) {
+                                return 'Hasło powinno mieć co najmniej 1 małą literę.';
+                              } else {
+                                return null;
+                              }
+                            }),
+                        const SizedBox(height: 20.0),
+                        TextFormField(
+                          obscureText: !_isVisible2,
                           decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isVisible2 = !_isVisible2;
+                                  });
+                                },
+                                icon: _isVisible2
+                                    ? const Icon(
+                                        Icons.visibility,
+                                        color: Colors.black,
+                                      )
+                                    : const Icon(Icons.visibility_off,
+                                        color: Colors.grey),
+                              ),
                               labelText: "Powtórz hasło",
                               labelStyle: const TextStyle(
                                   color: AppColors.greyAccent, fontSize: 15),
@@ -227,7 +280,13 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ),
                               contentPadding: const EdgeInsets.all(15)),
-                          obscureText: true,
+                          validator: (reapedPassword) {
+                            if (reapedPassword != _passwordController.text) {
+                              return 'Źle wpisane hasło';
+                            } else {
+                              return null;
+                            }
+                          },
                         ),
                         Container(
                           width: 400,
@@ -245,8 +304,15 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                             onPressed: () {
+                              final form = formKey.currentState!;
+
+                              /*if (form.validate()) {
+                                final email = _emailController.text;
+                                final password = _passwordController.text;
+                              }*/
+
                               if (formKey.currentState!.validate()) {
-                                postData(); 
+                                postData();
                               }
                             },
                             child: const Text(

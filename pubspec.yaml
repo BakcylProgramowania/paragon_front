@@ -18,6 +18,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.2
   multiple_search_selection: ^2.6.1
+  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
